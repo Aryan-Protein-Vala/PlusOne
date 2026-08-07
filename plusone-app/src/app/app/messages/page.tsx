@@ -1,262 +1,159 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { format } from "date-fns";
-import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import { Avatar } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  MessageSquare,
-  Search,
-  Shield,
-  AlertTriangle,
-  Send,
-  Lock,
-  CheckCheck,
-  MoreVertical,
-  Phone,
-  Video,
-  ArrowLeft,
-} from "lucide-react";
-import { MOCK_CONVERSATIONS, MOCK_BOOKINGS, MOCK_PROVIDERS, MOCK_USER } from "@/lib/mock-data";
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { ArrowRight, Check, Search, Send } from 'lucide-react'
+import { MOCK_CONVERSATIONS } from '@/lib/mock-data'
 
-const conversations = MOCK_CONVERSATIONS;
-const currentUserId = "usr_001";
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  return (
+    <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay, ease: [0.22, 1, 0.36, 1] }}>
+      {children}
+    </motion.div>
+  )
+}
 
 export default function MessagesPage() {
-  const [selectedConv, setSelectedConv] = useState(conversations[0] || null);
-  const [messageText, setMessageText] = useState("");
-  const [messages, setMessages] = useState<Array<{
-    id: string;
-    senderId: string;
-    content: string;
-    type: string;
-    createdAt: Date;
-    read: boolean;
-  }>>([
-    {
-      id: "msg_001",
-      senderId: "prv_001",
-      content: "Hey! Looking forward to the art walk tomorrow. See you at 10 at the clock tower 👋",
-      type: "text",
-      createdAt: new Date("2024-09-20T16:00:00"),
-      read: true,
-    },
-    {
-      id: "msg_002",
-      senderId: "usr_001",
-      content: "Hi Riya! Yes, can't wait. Should I bring anything?",
-      type: "text",
-      createdAt: new Date("2024-09-20T16:05:00"),
-      read: true,
-    },
-    {
-      id: "msg_003",
-      senderId: "prv_001",
-      content: "Just yourself and comfortable shoes! We'll be walking quite a bit through the art district 😊",
-      type: "text",
-      createdAt: new Date("2024-09-20T16:08:00"),
-      read: false,
-    },
-  ]);
+  const conversations = MOCK_CONVERSATIONS
+  const [activeId, setActiveId] = useState(conversations[0]?.bookingId || '')
+  const [message, setMessage] = useState('')
+  const active = conversations.find((c) => c.bookingId === activeId)
 
-  const handleSend = () => {
-    if (!messageText.trim()) return;
-    const newMsg = {
-      id: `msg_${Date.now()}`,
-      senderId: currentUserId,
-      content: messageText,
-      type: "text",
-      createdAt: new Date(),
-      read: false,
-    };
-    setMessages((m) => [...m, newMsg]);
-    setMessageText("");
-  };
+  const mockMessages = [
+    { id: '1', sender: 'them', text: 'Hey! Are we still on for the movie tonight?', time: '2:30 PM' },
+    { id: '2', sender: 'you', text: 'Yes! I was thinking PVR Phoenix at 7pm?', time: '2:32 PM' },
+    { id: '3', sender: 'them', text: "That works perfectly. I'll be there 10 minutes early.", time: '2:33 PM' },
+    { id: '4', sender: 'you', text: 'Great, see you there! 🎬', time: '2:35 PM' },
+  ]
 
   return (
-    <div className="h-[calc(100vh-80px)] flex flex-col">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 flex-1 flex gap-6">
-        {/* Conversation List */}
-        <div className="w-full sm:w-80 shrink-0">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className="text-white font-semibold text-lg">Messages</h1>
-            <div className="flex items-center gap-2">
-              <button className="p-2 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all">
-                <Search size={14} />
-              </button>
-              <Shield size={14} className="text-plus-green-400/60" />
+    <div className="app-container" style={{ paddingBottom: 0 }}>
+      <Reveal>
+        <div className="page-header" style={{ marginBottom: 24 }}>
+          <div className="page-kicker"><span>messages</span><span>Stay connected</span></div>
+          <h1>Your <em style={{ color: 'var(--primary)', fontStyle: 'normal' }}>chats.</em></h1>
+        </div>
+      </Reveal>
+
+      <Reveal delay={0.08}>
+        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: 0, border: '1px solid var(--border)', borderRadius: 18, overflow: 'hidden', minHeight: 560, background: 'var(--card)' }}>
+          {/* Sidebar */}
+          <div style={{ borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ padding: '16px 16px 12px', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ position: 'relative' }}>
+                <Search size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
+                <input className="app-input" placeholder="Search messages..." style={{ paddingLeft: 34, fontSize: 12 }} />
+              </div>
+            </div>
+            <div style={{ flex: 1, overflow: 'auto' }}>
+              {conversations.map((conv) => (
+                <button
+                  key={conv.bookingId}
+                  onClick={() => setActiveId(conv.bookingId)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    width: '100%',
+                    padding: '14px 16px',
+                    border: 'none',
+                    borderBottom: '1px solid var(--border)',
+                    background: activeId === conv.bookingId ? 'oklch(0.76 0.07 300 / 0.06)' : 'transparent',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition: 'background .15s',
+                  }}
+                >
+                  <div className="app-avatar" style={{ width: 38, height: 38, flexShrink: 0 }}>
+                    {conv.provider.avatar ? (
+                      <img src={conv.provider.avatar} alt={conv.provider.name} />
+                    ) : (
+                      conv.provider.name.charAt(0)
+                    )}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong style={{ fontSize: 13, fontWeight: 500, letterSpacing: '-.02em' }}>{conv.provider.name}</strong>
+                      <span style={{ fontSize: 9, color: 'var(--muted-foreground)', fontFamily: 'var(--font-geist-mono), monospace' }}>2:35pm</span>
+                    </div>
+                    <p style={{ margin: '3px 0 0', fontSize: 11, color: 'var(--muted-foreground)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {conv.lastMessage.content}
+                    </p>
+                  </div>
+                  {conv.unreadCount > 0 && (
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: 'var(--primary)', color: 'var(--primary-foreground)', fontSize: 9, fontWeight: 700, display: 'grid', placeItems: 'center', flexShrink: 0 }}>
+                      {conv.unreadCount}
+                    </span>
+                  )}
+                </button>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-1.5">
-            {conversations.map((conv) => (
-              <button
-                key={conv.bookingId}
-                onClick={() => setSelectedConv(conv)}
-                className={cn(
-                  "w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all",
-                  selectedConv?.bookingId === conv.bookingId
-                    ? "bg-plus-purple-500/10 border border-plus-purple-500/20"
-                    : "hover:bg-white/5 border border-transparent"
-                )}
-              >
-                <Avatar name={conv.provider.name} size="md" src={conv.provider.avatar} />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <span className="text-white text-sm font-medium truncate">{conv.provider.name}</span>
-                    <span className="text-white/20 text-xs shrink-0 ml-2">
-                      {format(new Date(conv.updatedAt), "MMM d")}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-white/30 text-xs truncate">{conv.lastMessage.content}</span>
-                    {conv.unreadCount > 0 && (
-                      <span className="w-5 h-5 bg-plus-purple-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shrink-0">
-                        {conv.unreadCount}
-                      </span>
+          {/* Chat Area */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {active ? (
+              <>
+                <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div className="app-avatar" style={{ width: 34, height: 34 }}>
+                    {active.provider.avatar ? (
+                      <img src={active.provider.avatar} alt={active.provider.name} />
+                    ) : (
+                      active.provider.name.charAt(0)
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-white/20 mt-0.5">
-                    <span>{format(new Date(conv.updatedAt), "h:mm a")}</span>
-                    {conv.lastMessage.type === "image" && (
-                      <span className="text-white/20">📷</span>
-                    )}
+                  <div>
+                    <strong style={{ fontSize: 13, fontWeight: 500 }}>{active.provider.name}</strong>
+                    <p style={{ margin: 0, fontSize: 10, color: 'var(--muted-foreground)' }}>
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', marginRight: 5 }} />
+                      Online
+                    </p>
                   </div>
                 </div>
-              </button>
-            ))}
-          </div>
-        </div>
 
-        {/* Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {selectedConv ? (
-            <>
-              {/* Chat Header */}
-              <div className="flex items-center gap-3 p-4 border-b border-white/5 bg-surface-900/50 shrink-0">
-                <button className="sm:hidden p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/5">
-                  <ArrowLeft size={16} />
-                </button>
-                <Avatar name={selectedConv.provider.name} size="md" src={selectedConv.provider.avatar} verified />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="text-white text-sm font-medium">{selectedConv.provider.name}</span>
-                    <Badge variant="success" size="sm">Verified</Badge>
-                  </div>
-                  <div className="flex items-center gap-3 text-xs text-white/20">
-                    <span className="flex items-center gap-1">
-                      <Lock size={9} />
-                      Encrypted
-                    </span>
-                    <span>{selectedConv.provider.city}</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <button className="p-2 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all" title="Call">
-                    <Phone size={14} />
-                  </button>
-                  <button className="p-2 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all" title="More">
-                    <MoreVertical size={14} />
-                  </button>
-                </div>
-              </div>
-
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                {/* Safety banner */}
-                <div className="flex items-center gap-2 p-3 bg-plus-green-500/5 border border-plus-green-500/10 rounded-xl mb-4">
-                  <Shield size={12} className="text-plus-green-400/60 shrink-0" />
-                  <span className="text-xs text-plus-green-300/70">
-                    This chat is end-to-end encrypted. Only you and {selectedConv.provider.name} can read these messages.
-                  </span>
-                </div>
-
-                {messages.map((msg) => {
-                  const isMine = msg.senderId === currentUserId;
-                  return (
-                    <div key={msg.id} className={cn("flex", isMine ? "justify-end" : "justify-start")}>
-                      <div className={cn(
-                        "max-w-[75%] rounded-2xl px-4 py-2.5",
-                        isMine
-                          ? "bg-gradient-to-r from-plus-purple-500 to-plus-pink-500 text-white rounded-br-md"
-                          : "bg-white/5 text-white rounded-bl-md"
-                      )}>
-                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
-                        <div className={cn("flex items-center justify-end gap-1 mt-1", isMine && "text-white/50")}>
-                          <span className="text-[10px]">
-                            {format(new Date(msg.createdAt), "h:mm a")}
-                          </span>
-                          {isMine && (
-                            <CheckCheck size={12} className={msg.read ? "text-plus-blue-300" : "text-white/30"} />
-                          )}
+                <div style={{ flex: 1, padding: 20, overflow: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  {mockMessages.map((msg) => (
+                    <div key={msg.id} style={{ display: 'flex', justifyContent: msg.sender === 'you' ? 'flex-end' : 'flex-start' }}>
+                      <div style={{
+                        maxWidth: '70%',
+                        padding: '10px 14px',
+                        borderRadius: msg.sender === 'you' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
+                        background: msg.sender === 'you' ? 'var(--primary)' : 'var(--background)',
+                        color: msg.sender === 'you' ? 'var(--primary-foreground)' : 'var(--foreground)',
+                        border: msg.sender === 'you' ? 'none' : '1px solid var(--border)',
+                        fontSize: 13,
+                        lineHeight: 1.5,
+                      }}>
+                        {msg.text}
+                        <div style={{ marginTop: 4, fontSize: 9, opacity: 0.6, textAlign: 'right', fontFamily: 'var(--font-geist-mono), monospace' }}>
+                          {msg.time} {msg.sender === 'you' && <Check size={10} style={{ display: 'inline', marginLeft: 3 }} />}
                         </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
+                  ))}
+                </div>
 
-              {/* Input */}
-              <div className="p-4 border-t border-white/5 shrink-0">
-                <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-2xl px-4 py-2.5">
-                  <button className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/5 transition-all">
-                    <AlertTriangle size={14} className="text-rose-400/60" />
-                  </button>
+                <div style={{ padding: '12px 20px', borderTop: '1px solid var(--border)', display: 'flex', gap: 10, alignItems: 'center' }}>
                   <input
-                    type="text"
-                    value={messageText}
-                    onChange={(e) => setMessageText(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                    className="app-input"
                     placeholder="Type a message..."
-                    className="flex-1 bg-transparent text-white placeholder:text-white/20 text-sm outline-none"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    style={{ flex: 1, fontSize: 13 }}
                   />
-                  <button
-                    onClick={handleSend}
-                    disabled={!messageText.trim()}
-                    className="p-2 rounded-xl bg-plus-purple-500/20 text-plus-purple-300 hover:bg-plus-purple-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                  >
-                    <Send size={16} />
+                  <button className="app-btn app-btn-primary app-btn-sm" style={{ borderRadius: 10, padding: '10px 14px' }}>
+                    <Send size={15} />
                   </button>
                 </div>
-                <div className="flex items-center justify-between mt-2">
-                  <p className="text-[10px] text-white/10">
-                    PlusOne may log messages for safety and dispute resolution.
-                  </p>
-                  <p className="text-[10px] text-white/10">
-                    Tap{" "}
-                    <span className="text-rose-400/60">⚠️</span> to report
-                  </p>
-                </div>
+              </>
+            ) : (
+              <div style={{ flex: 1, display: 'grid', placeItems: 'center', color: 'var(--muted-foreground)', fontSize: 13 }}>
+                Select a conversation to start chatting
               </div>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center">
-                <MessageSquare size={32} className="text-white/10 mx-auto mb-4" />
-                <p className="text-white/20 text-sm">Select a conversation to start messaging</p>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      </Reveal>
     </div>
-  );
-}
-
-function Badge({ variant, size, children }: { variant?: string; size?: string; children: React.ReactNode }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center shrink-0 rounded-full border font-medium",
-        variant === "success" ? "bg-green-500/15 text-green-300 border-green-500/20" : "bg-white/10 text-white/80 border-white/10",
-        size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-xs"
-      )}
-    >
-      {children}
-    </span>
-  );
+  )
 }

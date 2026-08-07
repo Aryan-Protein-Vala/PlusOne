@@ -1,0 +1,80 @@
+'use server'
+
+import { revalidatePath } from 'next/cache'
+import { createClient } from '@/lib/supabase/server'
+
+export async function createPlan(formData: FormData) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not logged in')
+
+  const activity = formData.get('activity') as string
+  const location = formData.get('location') as string
+  const budget = parseFloat(formData.get('budget') as string)
+  const description = formData.get('description') as string
+  
+  // Combine date and time for start_time
+  const date = formData.get('date') as string
+  const time = formData.get('time') as string
+  const start_time = new Date(`${date}T${time}:00`).toISOString()
+
+  const { error } = await supabase.from('plans').insert({
+    creator_id: user.id,
+    activity,
+    location,
+    start_time,
+    budget,
+    description,
+    status: 'open'
+  })
+
+  if (error) {
+    console.error('Error creating plan:', error)
+    return { error: error.message }
+  }
+
+  revalidatePath('/app/dashboard')
+  return { success: true }
+}
+
+export async function applyToPlan(planId: string, proposedRate: number, message: string) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not logged in')
+
+  const { error } = await supabase.from('plan_applications').insert({
+    plan_id: planId,
+    applicant_id: user.id,
+    proposed_rate: proposedRate,
+    message: message
+  })
+
+  if (error) {
+    console.error('Error applying to plan:', error)
+    return { error: error.message }
+  }
+
+  revalidatePath('/hosts/dashboard')
+  return { success: true }
+}
+
+export async function updateAvailability(status: 'free_now' | 'available_today' | 'busy' | 'offline') {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) throw new Error('Not logged in')
+
+  const { error } = await supabase.from('profiles').update({
+    availability_status: status
+  }).eq('id', user.id)
+
+  if (error) {
+    console.error('Error updating availability:', error)
+    return { error: error.message }
+  }
+
+  revalidatePath('/hosts/dashboard')
+  return { success: true }
+}

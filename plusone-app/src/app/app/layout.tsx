@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
+import AppNav from "@/components/AppNav";
 
 export const metadata: Metadata = {
   title: "PlusOne Dashboard",
@@ -14,11 +13,10 @@ export default function AppLayout({
 }) {
   return (
     <>
-      <Navbar />
-      <main className="min-h-screen bg-surface-999 pb-20">
+      <AppNav />
+      <div className="app-page">
         {children}
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

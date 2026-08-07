@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Using system font stack as Inter is loaded from Google Fonts
-// In production, add <link> to Google Fonts in <head> for best performance
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
+const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
   title: {
@@ -71,32 +72,25 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 };
 
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: "#f6f1e7",
+};
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className="scroll-smooth"
-      style={{ scrollBehavior: "smooth" }}
-    >
+    <html lang="en" className="bg-background">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-          rel="stylesheet"
-        />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </head>
       <body
-        className="font-sans antialiased min-h-screen bg-surface-999 text-white selection:bg-plus-purple-500/40 selection:text-white"
-        style={{ backgroundColor: "#050508" }}
+        className={`${geist.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <div id="toast-root" />
       </body>
     </html>
   );

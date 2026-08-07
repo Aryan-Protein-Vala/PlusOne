@@ -2,51 +2,100 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { ArrowLeft, Shield, CheckCircle2, Camera, Phone, FileText } from "lucide-react";
 
-export const metadata: { title: string; description: string } = { title: "Verification Guide", description: "Guide to identity verification on PlusOne." };
+export const metadata: Metadata = { 
+  title: "Verification Guide", 
+  description: "Guide to identity verification on PlusOne." 
+};
+
+function LogoMark() {
+  return (
+    <svg className="logo-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" style={{ width: 25, height: 25 }}>
+      <path d="M8.2 21.8c-3.2-3.2-3.2-8.4 0-11.6s8.4-3.2 11.6 0l4 4c3.2 3.2 3.2 8.4 0 11.6s-8.4 3.2-11.6 0l-1.5-1.5" />
+      <path d="M23.8 10.2c3.2 3.2 3.2 8.4 0 11.6s-8.4 3.2-11.6 0l-4-4c-3.2-3.2-3.2-8.4 0-11.6s8.4-3.2 11.6 0l1.5 1.5" />
+    </svg>
+  )
+}
 
 export default function VerificationPage() {
   return (
-    <div className="min-h-screen bg-surface-999">
-      <div className="sticky top-16 z-40 bg-surface-999/90 backdrop-blur-2xl border-b border-white/5">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between h-12">
-            <Link href="/" className="flex items-center gap-2 text-sm text-white/40 hover:text-white"><ArrowLeft size={14}/>Back to PlusOne</Link>
-            <div className="flex items-center gap-2 text-xs text-white/20"><Shield size={12}/>Verification</div>
-          </div>
+    <div className="app-page">
+      <header className="app-nav">
+        <Link href="/" className="brand" aria-label="PlusOne home">
+          <LogoMark />
+          <span>plusone</span>
+        </Link>
+        <div className="nav-actions">
+          <Link href="/app/safety" style={{ color: 'var(--muted-foreground)', fontSize: 12, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <ArrowLeft size={14} /> Back to Safety
+          </Link>
         </div>
-      </div>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
-        <div className="mb-10">
-          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-3">Identity Verification Guide</h1>
-          <p className="text-white/30">How verification works on PlusOne and why it matters.</p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div>
-            <h2 className="text-white font-semibold text-base mb-3 flex items-center gap-2"><Shield size={14} className="text-plus-purple-300"/>Verification Levels</h2>
-            {[
-              { level: "Phone Verified", icon: Phone, desc: "Your phone number has been confirmed via OTP. This is the basic level.", color: "text-plus-blue-300", bg: "bg-plus-blue-500/10" },
-              { level: "ID Verified", icon: FileText, desc: "Government-issued ID has been verified. We check your identity document.", color: "text-plus-purple-300", bg: "bg-plus-purple-500/10" },
-              { level: "Selfie Verified", icon: Camera, desc: "Selfie with liveness detection completed. This is our highest verification level.", color: "text-plus-green-300", bg: "bg-plus-green-500/10" },
-            ].map((v) => (
-              <div key={v.level} className={`rounded-xl border p-3 mb-2 ${v.bg} border-current/20`}>
-                <div className="flex items-center gap-2"><v.icon size={12} className={v.color}/><span className="text-white text-sm font-medium">{v.level}</span></div>
-                <p className="text-white/30 text-xs mt-1">{v.desc}</p>
-              </div>
-            ))}
+      </header>
+
+      <div className="app-container-mid">
+        <div className="page-header">
+          <div className="page-kicker">
+            <span><Shield size={12} style={{ display: 'inline', marginRight: 4, verticalAlign: 'baseline' }} /> Trust & Safety</span>
+            <span>Guide</span>
           </div>
+          <h1>Identity <em style={{ color: 'var(--primary)', fontStyle: 'normal' }}>Verification.</em></h1>
+          <p>How verification works on PlusOne and why it matters.</p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginTop: 48 }}>
+          {/* Left Col */}
           <div>
-            <h2 className="text-white font-semibold text-base mb-3 flex items-center gap-2"><CheckCircle2 size={14} className="text-plus-green-300"/>Why Verify?</h2>
-            <ul className="space-y-2 text-sm">
-              {["Build trust with potential guests", "Display verification badges on your profile", "Access higher booking volumes", "Qualify for our Top Host programme", "Weighs positively in search rankings", "Required for payouts above a certain threshold"].map((item) => (
-                <li key={item} className="flex items-start gap-2 text-white/40"><CheckCircle2 size={12} className="text-plus-green-400/60 mt-0.5 shrink-0"/>{item}</li>
+            <h2 style={{ fontSize: 18, fontWeight: 520, letterSpacing: '-.03em', marginBottom: 20 }}>Verification Levels</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { level: "Phone Verified", icon: Phone, desc: "Your phone number has been confirmed via OTP. This is the basic level.", color: "var(--primary)", bg: "oklch(0.76 0.07 300 / 0.1)" },
+                { level: "ID Verified", icon: FileText, desc: "Government-issued ID has been verified. We check your identity document.", color: "var(--accent-foreground)", bg: "oklch(0.65 0.15 55 / 0.1)" },
+                { level: "Selfie Verified", icon: Camera, desc: "Selfie with liveness detection completed. This is our highest verification level.", color: "var(--accent)", bg: "oklch(0.78 0.07 150 / 0.1)" },
+              ].map((v) => (
+                <div key={v.level} className="app-card" style={{ padding: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                    <div style={{ width: 24, height: 24, borderRadius: 6, background: v.bg, display: 'grid', placeItems: 'center' }}>
+                      <v.icon size={12} style={{ color: v.color }} />
+                    </div>
+                    <span style={{ fontSize: 13, fontWeight: 500 }}>{v.level}</span>
+                  </div>
+                  <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 12, lineHeight: 1.5 }}>{v.desc}</p>
+                </div>
               ))}
-            </ul>
-            <div className="mt-4 rounded-xl bg-plus-purple-500/5 border border-plus-purple-500/10 p-3">
-              <p className="text-white/40 text-xs leading-relaxed">Your ID documents are processed by our secure verification partners. We do not store ID images on our servers. Verification data is encrypted and handled in compliance with applicable laws.</p>
+            </div>
+          </div>
+
+          {/* Right Col */}
+          <div>
+            <h2 style={{ fontSize: 18, fontWeight: 520, letterSpacing: '-.03em', marginBottom: 20 }}>Why Verify?</h2>
+            <div className="app-card-flat" style={{ padding: 24 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+                {[
+                  "Build trust with potential guests", 
+                  "Display verification badges on your profile", 
+                  "Access higher booking volumes", 
+                  "Qualify for our Top Host programme", 
+                  "Weighs positively in search rankings", 
+                  "Required for payouts above a certain threshold"
+                ].map((item) => (
+                  <li key={item} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--muted-foreground)', lineHeight: 1.5 }}>
+                    <CheckCircle2 size={14} style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <div style={{ marginTop: 24, padding: 16, borderRadius: 12, border: '1px solid var(--border)', background: 'var(--background)' }}>
+                <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 11, lineHeight: 1.6 }}>
+                  Your ID documents are processed by our secure verification partners. We do not store ID images on our servers. Verification data is encrypted and handled in compliance with applicable laws.
+                </p>
+              </div>
             </div>
           </div>
         </div>
-        <div className="mt-8 p-6 bg-surface-900/50 border border-white/5 rounded-2xl"><p className="text-white/20 text-xs text-center">© {new Date().getFullYear()} PlusOne Technologies Pvt. Ltd.</p></div>
+
+        <div style={{ marginTop: 64, padding: 24, borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+          <p style={{ color: 'var(--muted-foreground)', fontSize: 11 }}>© {new Date().getFullYear()} PlusOne Technologies Pvt. Ltd.</p>
+        </div>
       </div>
     </div>
   );

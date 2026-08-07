@@ -1,36 +1,16 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
-
-import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
-import HeroSection from "@/components/landing/HeroSection";
-import FeaturedProviders from "@/components/landing/FeaturedProviders";
-import CategoriesSection from "@/components/landing/CategoriesSection";
-import HowItWorks from "@/components/landing/HowItWorks";
-import SafetySection from "@/components/landing/SafetySection";
-import TrustSection from "@/components/landing/TrustSection";
-import CTASection from "@/components/landing/CTASection";
+import PlusOneLanding from "@/components/landing/PlusOneLanding";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "PlusOne — Find someone for any plan.",
+  title: "PlusOne — Make plans. Meet people.",
   description:
-    "The world's safest marketplace for finding verified people to share real-life activities. Your friend cancelled? We've got you.",
+    "PlusOne helps you find your next favorite thing — and the people who make it better. The world's safest marketplace for finding verified people to share real-life activities.",
 };
 
-export default function HomePage() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <HeroSection />
-        <TrustSection />
-        <FeaturedProviders />
-        <CategoriesSection />
-        <HowItWorks />
-        <SafetySection />
-        <CTASection />
-      </main>
-      <Footer />
-    </>
-  );
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  return <PlusOneLanding isLoggedIn={!!user} />;
 }
