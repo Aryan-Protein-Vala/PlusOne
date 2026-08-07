@@ -1,5 +1,14 @@
 export const PLATFORM_NAME = "PlusOne";
 export const PLATFORM_TAGLINE = "Find someone for any plan.";
+
+// Initial launch market. The backend enforces this through migration 00004.
+// Keep this in one place so the first release can expand cleanly later.
+export const LAUNCH_MARKET = {
+  countryCode: "IN",
+  countryName: "India",
+  currency: "INR",
+  currencySymbol: "₹",
+} as const;
 export const PLATFORM_URL = "https://plusone.app";
 
 export const VERIFICATION_BADGES = {

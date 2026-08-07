@@ -9,10 +9,14 @@ export async function createPlan(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Not logged in')
 
-  const activity = formData.get('activity') as string
-  const location = formData.get('location') as string
-  const budget = parseFloat(formData.get('budget') as string)
-  const description = formData.get('description') as string
+  const activity = String(formData.get('activity') || '').trim()
+  const location = String(formData.get('location') || '').trim()
+  const budget = parseFloat(String(formData.get('budget') || ''))
+  const description = String(formData.get('description') || '').trim()
+
+  if (!activity || !location || !Number.isFinite(budget) || budget <= 0) {
+    return { error: 'Please provide an activity, location, and a valid charge.' }
+  }
   
   // Combine date and time for start_time
   const date = formData.get('date') as string

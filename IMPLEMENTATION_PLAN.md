@@ -1,6 +1,6 @@
 # PlusOne implementation plan
 
-PlusOne is being built as a worldwide marketplace where people can find someone for any lawful social plan and earn money by meeting new people. The product will support international users, currencies, time zones, languages, and local safety requirements.
+PlusOne is being built as a marketplace where people can find someone for any lawful social plan and earn money by meeting new people. The first launch market is India so we can validate the complete product flow, safety operations, and payments before expanding worldwide. The data model remains ready for future countries.
 
 ## Delivery order
 
@@ -47,12 +47,13 @@ PlusOne is being built as a worldwide marketplace where people can find someone 
 - Fix lint errors and production build warnings.
 - Add observability, backups, rate limits, abuse prevention, and internationalization.
 
-## Worldwide requirements
+## India-first launch requirements
 
+- Launch records are constrained to country code `IN` and currency `INR` by migration `00004_india_launch_constraints.sql`.
 - Store timestamps as `timestamptz` and render them in the user's timezone.
-- Store prices with an ISO 4217 currency code; never assume INR.
 - Store country and timezone separately from city.
-- Do not use phone-number formats or payment providers that only work in one country.
-- Localize legal, tax, payout, age, verification, and safety requirements before launch in each country.
+- Support Indian phone numbers without hardcoding a single city.
+- Build payment, refund, payout, tax, age, verification, and safety flows for India first.
+- Keep country and currency fields in the schema so international expansion does not require a rewrite.
 
-The UI will continue to use the current PlusOne visual language. Product scope is intentionally kept broad for now; market focus can be decided after the complete product flow is working.
+The UI will continue to use the current PlusOne visual language. Product scope remains broad within India: **Find someone for any plan** and **earn money by meeting new people**.
