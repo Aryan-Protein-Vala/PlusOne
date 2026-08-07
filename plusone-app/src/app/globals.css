@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom color palette */
+  --color-surface-50: #f0f0f5;
+  --color-surface-100: #e0e0ea;
+  --color-surface-200: #c0c0d0;
+  --color-surface-300: #9090a0;
+  --color-surface-400: #6b6b7a;
+  --color-surface-500: #555560;
+  --color-surface-600: #3d3d45;
+  --color-surface-700: #2a2a30;
+  --color-surface-800: #1a1a20;
+  --color-surface-900: #0f0f15;
+  --color-surface-950: #08080c;
+  --color-surface-999: #050508;
+
+  --color-plus-blue-50: #eef2ff;
+  --color-plus-blue-100: #dbe4ff;
+  --color-plus-blue-200: #bac8ff;
+  --color-plus-blue-300: #93bbff;
+  --color-plus-blue-400: #3b82f6;
+  --color-plus-blue-500: #2563eb;
+  --color-plus-blue-600: #1d4ed8;
+  --color-plus-blue-700: #1e40af;
+  --color-plus-blue-800: #1e3a8a;
+  --color-plus-blue-900: #172554;
+
+  --color-plus-purple-50: #f5f3ff;
+  --color-plus-purple-100: #ede9fe;
+  --color-plus-purple-200: #ddd6fe;
+  --color-plus-purple-300: #c084fc;
+  --color-plus-purple-400: #a855f7;
+  --color-plus-purple-500: #9333ea;
+  --color-plus-purple-600: #7e22ce;
+  --color-plus-purple-700: #6b21a8;
+  --color-plus-purple-800: #581c87;
+  --color-plus-purple-900: #3b0764;
+
+  --color-plus-pink-50: #fdf2f8;
+  --color-plus-pink-100: #fce7f3;
+  --color-plus-pink-200: #fbcfe8;
+  --color-plus-pink-300: #f9a8d4;
+  --color-plus-pink-400: #ec4899;
+  --color-plus-pink-500: #db2777;
+  --color-plus-pink-600: #be185d;
+  --color-plus-pink-700: #9d174d;
+  --color-plus-pink-800: #831843;
+  --color-plus-pink-900: #500724;
+
+  --color-plus-cyan-50: #ecfeff;
+  --color-plus-cyan-100: #cffafe;
+  --color-plus-cyan-200: #a5f3fc;
+  --color-plus-cyan-300: #67e8f9;
+  --color-plus-cyan-400: #22d3ee;
+  --color-plus-cyan-500: #06b6d4;
+  --color-plus-cyan-600: #0891b2;
+  --color-plus-cyan-700: #0e7490;
+  --color-plus-cyan-800: #155e75;
+  --color-plus-cyan-900: #164e63;
+
+  --color-plus-green-50: #f0fdf4;
+  --color-plus-green-100: #dcfce7;
+  --color-plus-green-200: #bbf7d0;
+  --color-plus-green-300: #86efac;
+  --color-plus-green-400: #4ade80;
+  --color-plus-green-500: #22c55e;
+  --color-plus-green-600: #16a34a;
+  --color-plus-green-700: #15803d;
+  --color-plus-green-800: #166534;
+  --color-plus-green-900: #14532d;
+
+  --color-plus-gold-50: #fffbeb;
+  --color-plus-gold-100: #fef3c7;
+  --color-plus-gold-200: #fde68a;
+  --color-plus-gold-300: #fcd34d;
+  --color-plus-gold-400: #fbbf24;
+  --color-plus-gold-500: #f59e0b;
+  --color-plus-gold-600: #d97706;
+  --color-plus-gold-700: #b45309;
+  --color-plus-gold-800: #92400e;
+  --color-plus-gold-900: #78350f;
+
+  --color-plus-red-50: #fef2f2;
+  --color-plus-red-100: #fee2e2;
+  --color-plus-red-200: #fecaca;
+  --color-plus-red-300: #fca5a5;
+  --color-plus-red-400: #ef4444;
+  --color-plus-red-500: #dc2626;
+  --color-plus-red-600: #b91c1c;
+  --color-plus-red-700: #991b1b;
+  --color-plus-red-800: #7f1d1d;
+  --color-plus-red-900: #450a0a;
+
+  --color-plus-amber-50: #fffbeb;
+  --color-plus-amber-100: #fef3c7;
+  --color-plus-amber-200: #fde68a;
+  --color-plus-amber-300: #fcd34d;
+  --color-plus-amber-400: #fbbf24;
+  --color-plus-amber-500: #f59e0b;
+  --color-plus-amber-600: #d97706;
+  --color-plus-amber-700: #b45309;
+  --color-plus-amber-800: #92400e;
+  --color-plus-amber-900: #78350f;
+
+  --color-plus-orange-50: #fff7ed;
+  --color-plus-orange-100: #ffedd5;
+  --color-plus-orange-200: #fed7aa;
+  --color-plus-orange-300: #fdba74;
+  --color-plus-orange-400: #fb923c;
+  --color-plus-orange-500: #f97316;
+  --color-plus-orange-600: #ea580c;
+  --color-plus-orange-700: #c2410c;
+  --color-plus-orange-800: #9a3412;
+  --color-plus-orange-900: #7c2d12;
+
+  --color-plus-teal-50: #f0fdfa;
+  --color-plus-teal-100: #ccfbf1;
+  --color-plus-teal-200: #99f6e4;
+  --color-plus-teal-300: #5eead4;
+  --color-plus-teal-400: #2dd4bf;
+  --color-plus-teal-500: #14b8a6;
+  --color-plus-teal-600: #0d9488;
+  --color-plus-teal-700: #0f766e;
+  --color-plus-teal-800: #115e59;
+  --color-plus-teal-900: #134e4a;
+
+  --color-plus-rose-50: #fff1f2;
+  --color-plus-rose-100: #ffe4e6;
+  --color-plus-rose-200: #fecdd3;
+  --color-plus-rose-300: #fda4af;
+  --color-plus-rose-400: #fb7185;
+  --color-plus-rose-500: #f43f5e;
+  --color-plus-rose-600: #e11d48;
+  --color-plus-rose-700: #be123c;
+  --color-plus-rose-800: #9f1239;
+  --color-plus-rose-900: #881337;
+
+  --color-plus-indigo-50: #eef2ff;
+  --color-plus-indigo-100: #e0e7ff;
+  --color-plus-indigo-200: #c7d2fe;
+  --color-plus-indigo-300: #a5b4fc;
+  --color-plus-indigo-400: #818cf8;
+  --color-plus-indigo-500: #6366f1;
+  --color-plus-indigo-600: #4f46e5;
+  --color-plus-indigo-700: #4338ca;
+  --color-plus-indigo-800: #3730a3;
+  --color-plus-indigo-900: #312e81;
+
+  --color-glass: oklch(0.95 0 0 / 0.04);
+  --color-glass-border: oklch(0.95 0 0 / 0.08);
+  --color-glass-hover: oklch(0.95 0 0 / 0.07);
+
+  /* Font family - using system font stack, Inter loaded via Google Fonts link in layout */
+
+  /* Animation */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-delayed: float 6s ease-in-out 2s infinite;
+  --animate-pulse-glow: pulseGlow 3s ease-in-out infinite;
+  --animate-slide-up: slideUp 0.5s ease-out;
+  --animate-fade-in: fadeIn 0.4s ease-out;
+  --animate-scale-in: scaleIn 0.3s ease-out;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-bounce-gentle: bounceGentle 2s ease-in-out infinite;
+  --animate-gradient-shift: gradientShift 8s ease infinite;
+  --animate-hover-lift: hoverLift 0.3s ease-out;
+  --animate-sparkle: sparkle 1.5s ease-in-out infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+  @keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes scaleIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes bounceGentle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes hoverLift {
+    0% { transform: translateY(0); box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+    50% { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(99,102,241,0.2); }
+    100% { transform: translateY(0); box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+  }
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #050508;
+    color: white;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background-color: rgba(139, 92, 246, 0.4);
+    color: white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.3);
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
+  }
+}
+
+@layer components {
+  .text-gradient {
+    background-image: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+    background-clip: text;
+    color: transparent;
+  }
+
+  .glass {
+    background-color: oklch(0.95 0 0 / 0.04);
+    backdrop-filter: blur(20px);
+    border: 1px solid oklch(0.95 0 0 / 0.08);
+  }
+
+  .glass-hover:hover {
+    background-color: oklch(0.95 0 0 / 0.07);
+    border-color: oklch(0.95 0 0 / 0.15);
+  }
+}
+
+@layer base {
+  *:focus-visible {
+    outline: 2px solid rgba(139, 92, 246, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  img {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  img[data-loading="true"] {
+    opacity: 0;
+  }
+}
