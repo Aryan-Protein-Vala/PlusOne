@@ -309,6 +309,7 @@ export default function MarketplaceFeedPage() {
                   }}
                 >
                   {isApplied ? (
+                    <>
                       <Check size={16} style={{ color: 'var(--primary)' }} /> Applied for ₹{plan.budget}
                     </>
                   ) : (
