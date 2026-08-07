@@ -19,9 +19,13 @@ export async function createPlan(formData: FormData) {
   }
   
   // Combine date and time for start_time
-  const date = formData.get('date') as string
-  const time = formData.get('time') as string
-  const start_time = new Date(`${date}T${time}:00`).toISOString()
+  const date = String(formData.get('date') || '')
+  const time = String(formData.get('time') || '')
+  const startDate = new Date(`${date}T${time}:00+05:30`)
+  if (!date || !time || Number.isNaN(startDate.getTime()) || startDate.getTime() <= Date.now()) {
+    return { error: 'Please choose a valid future date and time in India.' }
+  }
+  const start_time = startDate.toISOString()
 
   const { error } = await supabase.from('plans').insert({
     creator_id: user.id,
@@ -29,6 +33,8 @@ export async function createPlan(formData: FormData) {
     location,
     start_time,
     budget,
+    currency: 'INR',
+    country_code: 'IN',
     description,
     status: 'open'
   })

@@ -14,18 +14,18 @@ export async function login(formData: FormData) {
     password,
   })
 
-  if (error) {
-    return { error: error.message }
+  if (error || !data.user) {
+    return { error: error?.message || 'Unable to sign in.' }
   }
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', data.user.id)
+    .maybeSingle()
+
   revalidatePath('/', 'layout')
-  
-  // Route founder to admin, others to explore
-  if (email === 'aryansharma24112003@gmail.com') {
-    redirect('/admin')
-  } else {
-    redirect('/app/explore')
-  }
+  redirect(profile?.role === 'admin' ? '/admin' : '/app/explore')
 }
 
 export async function signup(formData: FormData) {
@@ -59,12 +59,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  
-  if (email === 'aryansharma24112003@gmail.com') {
-    redirect('/admin')
-  } else {
-    redirect('/app/explore')
-  }
+  redirect('/app/explore')
 }
 
 export async function logout() {
