@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import AppNav from "@/components/AppNav";
+import UnifiedAppNav from "@/components/UnifiedAppNav";
 
 export const metadata: Metadata = {
-  title: "PlusOne Dashboard",
-  description: "Manage your PlusOne account, bookings, and wallet.",
+  title: "PlusOne",
+  description: "Find your PlusOne.",
 };
 
 export default function AppLayout({
@@ -13,8 +13,12 @@ export default function AppLayout({
 }) {
   return (
     <>
-      <AppNav />
-      <div className="app-page">
+      <UnifiedAppNav />
+      {/* 
+        md:pl-[240px] accommodates the desktop sidebar.
+        pb-20 accommodates the mobile bottom nav.
+      */}
+      <div className="md:pl-[240px] pb-20 md:pb-0 min-h-screen bg-[var(--background)]">
         {children}
       </div>
     </>

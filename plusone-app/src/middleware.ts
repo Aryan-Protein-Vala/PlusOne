@@ -35,15 +35,18 @@ export async function middleware(req: NextRequest) {
                            req.nextUrl.pathname.startsWith('/hosts') || 
                            req.nextUrl.pathname.startsWith('/admin')
 
-  // Hardcoded check for founder (since we bypass auth in actions for them currently)
-  // In a real app, the founder would actually get a Supabase session.
-  // For now, if there is no user and it's a protected route, redirect to login.
-  // We'll allow /admin if they bypass, but let's secure /app and /hosts.
-  if (!user && isProtectedRoute) {
-    // If they are trying to access /admin and they have a special cookie? 
-    // We didn't set a cookie for the founder bypass in actions.ts.
-    // Let's just protect /app and /hosts for normal users.
-    if (!req.nextUrl.pathname.startsWith('/admin')) {
+  // Strict Admin Protection
+  if (req.nextUrl.pathname.startsWith('/admin')) {
+    if (!user || user.email !== 'aryansharma24112003@gmail.com') {
+      const redirectUrl = req.nextUrl.clone()
+      redirectUrl.pathname = user ? '/app/explore' : '/auth/login'
+      return NextResponse.redirect(redirectUrl)
+    }
+  }
+
+  // App Shell Protection
+  if (isProtectedRoute && !req.nextUrl.pathname.startsWith('/admin')) {
+    if (!user) {
       const redirectUrl = req.nextUrl.clone()
       redirectUrl.pathname = '/auth/login'
       redirectUrl.searchParams.set('redirectedFrom', req.nextUrl.pathname)

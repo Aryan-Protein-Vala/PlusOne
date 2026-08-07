@@ -9,14 +9,7 @@ export async function login(formData: FormData) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
-  // Special founder universal login
-  if (email === 'aryansharma24112003@gmail.com' && password === 'Aryan@24') {
-    // For now, since it's hardcoded, we can just redirect.
-    // In production, we'd still authenticate via Supabase to set cookies
-    redirect('/admin')
-  }
-
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
   })
@@ -26,7 +19,13 @@ export async function login(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/app/mode-select')
+  
+  // Route founder to admin, others to explore
+  if (email === 'aryansharma24112003@gmail.com') {
+    redirect('/admin')
+  } else {
+    redirect('/app/explore')
+  }
 }
 
 export async function signup(formData: FormData) {
@@ -60,7 +59,12 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/app/mode-select')
+  
+  if (email === 'aryansharma24112003@gmail.com') {
+    redirect('/admin')
+  } else {
+    redirect('/app/explore')
+  }
 }
 
 export async function logout() {

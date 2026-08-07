@@ -132,7 +132,7 @@ function Nav({ isLoggedIn }: { isLoggedIn: boolean }) {
       <nav className="desktop-nav" aria-label="Primary navigation">{navItems.map((item) => <a href={item.href} key={item.href}>{item.label}</a>)}</nav>
       <div className="nav-actions">
         {isLoggedIn ? (
-          <Link className="nav-cta" href="/app/mode-select">Dashboard <ArrowRight size={15} /></Link>
+          <Link className="nav-cta" href="/app/explore">Open App <ArrowRight size={15} /></Link>
         ) : (
           <>
             <Link className="nav-login" href="/auth/login">Log in</Link>
@@ -143,7 +143,7 @@ function Nav({ isLoggedIn }: { isLoggedIn: boolean }) {
       </div>
       <AnimatePresence>{open && <motion.nav className="mobile-nav" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}
         {isLoggedIn ? (
-          <Link href="/app/mode-select" onClick={() => setOpen(false)}>Dashboard<ArrowRight size={15} /></Link>
+          <Link href="/app/explore" onClick={() => setOpen(false)}>Open App<ArrowRight size={15} /></Link>
         ) : (
           <Link href="/auth/register" onClick={() => setOpen(false)}>Get started<ArrowRight size={15} /></Link>
         )}
@@ -172,7 +172,7 @@ export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: bo
               <div className="hero-actions" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 <Link className="button button-primary" href="/auth/login?redirect=/app/explore" style={{ textDecoration: 'none' }}>Find someone <ArrowRight size={16} /></Link>
                 <span style={{ fontSize: 11, color: 'var(--muted-foreground)', fontWeight: 600, fontFamily: 'var(--font-geist-mono), monospace' }}>OR</span>
-                <Link className="button button-secondary" href="/auth/login?redirect=/app/dashboard" style={{ textDecoration: 'none' }}>Create a plan <ArrowUpRight size={16} /></Link>
+                <Link className="button button-secondary" href="/auth/login?redirect=/app/explore" style={{ textDecoration: 'none' }}>Create a plan <ArrowUpRight size={16} /></Link>
               </div>
             </Reveal>
           )}
