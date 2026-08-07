@@ -9,27 +9,38 @@ export async function middleware(req: NextRequest) {
     },
   })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() {
-          return req.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => {
-            req.cookies.set(name, value)
-            res.cookies.set(name, value, options)
-          })
-        },
-      },
-    }
-  )
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  if (!supabaseUrl || !supabaseKey || supabaseUrl.includes('your-supabase-url') || supabaseUrl.includes('placeholder')) {
+    return res
+  }
+
+  let user = null
+  try {
+    const supabase = createServerClient(
+      supabaseUrl,
+      supabaseKey,
+      {
+        cookies: {
+          getAll() {
+            return req.cookies.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) => {
+              req.cookies.set(name, value)
+              res.cookies.set(name, value, options)
+            })
+          },
+        },
+      }
+    )
+
+    const { data } = await supabase.auth.getUser()
+    user = data?.user ?? null
+  } catch (error) {
+    console.warn('Middleware Supabase auth check failed:', error)
+  }
 
   const isProtectedRoute = req.nextUrl.pathname.startsWith('/app') || 
                            req.nextUrl.pathname.startsWith('/hosts') || 

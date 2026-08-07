@@ -1,4 +1,4 @@
-import { ProviderProfile, Review, Booking, User, Wallet, Conversation } from "./types";
+import { ProviderProfile, Review, Booking, User, Wallet, Conversation, Plan, PlanApplication } from "./types";
 
 // ─── Mock Users ──────────────────────────────────────────────────────────────
 
@@ -15,6 +15,7 @@ export const MOCK_USER: User = {
   trustScore: 82,
   city: "Mumbai",
   bio: "Always down for a good movie or coffee",
+  is_available: true,
 };
 
 export const MOCK_PROVIDERS: ProviderProfile[] = [
@@ -25,6 +26,7 @@ export const MOCK_PROVIDERS: ProviderProfile[] = [
     phone: "+91 98765 43211",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
     isProvider: true,
+    is_available: true,
     isVerified: true,
     verificationLevel: "selfie",
     createdAt: new Date("2023-08-10"),
@@ -135,6 +137,7 @@ export const MOCK_PROVIDERS: ProviderProfile[] = [
     phone: "+91 98765 43212",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
     isProvider: true,
+    is_available: true,
     isVerified: true,
     verificationLevel: "id",
     createdAt: new Date("2023-11-20"),
@@ -205,6 +208,7 @@ export const MOCK_PROVIDERS: ProviderProfile[] = [
     phone: "+91 98765 43213",
     avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&q=80",
     isProvider: true,
+    is_available: true,
     isVerified: true,
     verificationLevel: "selfie",
     createdAt: new Date("2023-06-15"),
@@ -277,6 +281,7 @@ export const MOCK_PROVIDERS: ProviderProfile[] = [
     phone: "+91 98765 43214",
     avatar: "https://images.unsplash.com/photo-1599566150163-29194dcabd36?w=400&q=80",
     isProvider: true,
+    is_available: true,
     isVerified: true,
     verificationLevel: "id",
     createdAt: new Date("2024-01-05"),
@@ -344,6 +349,7 @@ export const MOCK_PROVIDERS: ProviderProfile[] = [
     phone: "+91 98765 43215",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80",
     isProvider: true,
+    is_available: true,
     isVerified: true,
     verificationLevel: "selfie",
     createdAt: new Date("2023-09-28"),
@@ -573,11 +579,129 @@ export const MOCK_WALLET: Wallet = {
   ],
 };
 
-export const LEADERBOARD = {
-  topRated: MOCK_PROVIDERS.sort((a, b) => b.ratings.overall - a.ratings.overall).slice(0, 5),
-  topEarners: MOCK_PROVIDERS.sort((a, b) => b.totalEarnings - a.totalEarnings).slice(0, 5),
-  mostBooked: MOCK_PROVIDERS.sort((a, b) => b.completedActivities - a.completedActivities).slice(0, 5),
-};
+// ─── Mock Plans & Applications (Fixed-Price Engine) ──────────────────────────
+
+export const MOCK_PLANS: Plan[] = [
+  {
+    id: "plan_live_01",
+    customer_id: "usr_002",
+    activity_title: "Stand-up Comedy Night at Habitat",
+    category: "Comedy & Events",
+    budget: 900,
+    location: "Khar West, Mumbai",
+    distance: "1.2 km away",
+    date_time: "Today, 8:30 PM",
+    is_urgent: true,
+    status: "live_match",
+    description: "Looking for a fun comedy enthusiast to catch Kanan Gill's live show at The Habitat!",
+    customer: {
+      id: "usr_002",
+      name: "Siddharth Rao",
+      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&q=80",
+      rating: 4.9,
+    },
+    created_at: "5 mins ago",
+  },
+  {
+    id: "plan_mp_01",
+    customer_id: "usr_003",
+    activity_title: "Badminton Session & Protein Smoothie",
+    category: "Sports & Fitness",
+    budget: 650,
+    location: "Andheri Sports Complex, Mumbai",
+    distance: "2.4 km away",
+    date_time: "Tomorrow, 7:00 AM",
+    is_urgent: false,
+    status: "marketplace",
+    description: "Need an intermediate badminton partner for 1.5 hours of singles/doubles match.",
+    customer: {
+      id: "usr_003",
+      name: "Aanya Verma",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&q=80",
+      rating: 4.85,
+    },
+    created_at: "20 mins ago",
+  },
+  {
+    id: "plan_mp_02",
+    customer_id: "usr_004",
+    activity_title: "Art Gallery Exploration & Artisan Coffee",
+    category: "Art & Culture",
+    budget: 800,
+    location: "Kala Ghoda, South Mumbai",
+    distance: "4.1 km away",
+    date_time: "Saturday, 11:00 AM",
+    is_urgent: false,
+    status: "marketplace",
+    description: "Visiting the contemporary photography exhibit at Jehangir Art Gallery. Coffee after!",
+    customer: {
+      id: "usr_004",
+      name: "Vikram Malhotra",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80",
+      rating: 4.92,
+    },
+    created_at: "1 hour ago",
+  },
+  {
+    id: "plan_mp_03",
+    customer_id: "usr_005",
+    activity_title: "Bandra Sea Face Sunset Walk",
+    category: "Social & Outdoors",
+    budget: 500,
+    location: "Carter Road Promenade, Bandra",
+    distance: "1.8 km away",
+    date_time: "Today, 6:00 PM",
+    is_urgent: true,
+    status: "marketplace",
+    description: "Chill evening walk along the sea face followed by boba tea.",
+    customer: {
+      id: "usr_005",
+      name: "Pooja Hegde",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&q=80",
+      rating: 4.78,
+    },
+    created_at: "35 mins ago",
+  },
+  {
+    id: "plan_mp_04",
+    customer_id: "usr_006",
+    activity_title: "Late Night Jazz & Board Games",
+    category: "Nightlife",
+    budget: 1100,
+    location: "Subko Specialty Coffee, Bandra",
+    distance: "3.0 km away",
+    date_time: "Friday, 9:00 PM",
+    is_urgent: false,
+    status: "marketplace",
+    description: "A relaxed evening playing Catan or Chess with live acoustic jazz background.",
+    customer: {
+      id: "usr_006",
+      name: "Rohan Dasgupta",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&q=80",
+      rating: 4.96,
+    },
+    created_at: "2 hours ago",
+  },
+];
+
+export const MOCK_PLAN_APPLICATIONS: PlanApplication[] = [
+  {
+    id: "app_01",
+    plan_id: "plan_mp_01",
+    host_id: "prv_001",
+    applied_at: "2024-09-20T15:30:00Z",
+    status: "pending",
+    plan: MOCK_PLANS[1],
+  },
+  {
+    id: "app_02",
+    plan_id: "plan_mp_02",
+    host_id: "prv_001",
+    applied_at: "2024-09-19T10:00:00Z",
+    status: "accepted",
+    plan: MOCK_PLANS[2],
+  },
+];
 
 // Re-export from constants
 export { SAFETY_REMINDER } from "./constants";

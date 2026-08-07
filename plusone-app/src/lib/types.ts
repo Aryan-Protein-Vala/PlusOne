@@ -13,6 +13,7 @@ export interface User {
   trustScore: number;
   city: string;
   bio?: string;
+  is_available?: boolean; // 🟢 GO AVAILABLE toggle state
 }
 
 export type VerificationLevel = "none" | "phone" | "id" | "selfie" | "social";
@@ -46,6 +47,7 @@ export interface ProviderProfile extends User {
   trustLevel: "Bronze" | "Silver" | "Gold" | "Diamond";
   featured: boolean;
   lastActive: Date;
+  is_available?: boolean; // 🟢 GO AVAILABLE toggle state
 }
 
 export interface ProviderBadge {
@@ -60,6 +62,45 @@ export interface AvailabilitySlot {
   startTime: string;
   endTime: string;
   available: boolean;
+}
+
+// ─── Plans & Applications (Fixed-Price Matching Engine) ──────────────────────
+
+export type PlanStatus = 'live_match' | 'marketplace' | 'booked' | 'expired';
+
+export interface PlanCustomer {
+  id: string;
+  name: string;
+  avatar: string;
+  rating: number;
+}
+
+export interface Plan {
+  id: string;
+  customer_id: string;
+  activity_title: string;
+  category: string;
+  budget: number;
+  location: string;
+  date_time: string;
+  is_urgent: boolean;
+  status: PlanStatus;
+  description?: string;
+  distance?: string;
+  customer?: PlanCustomer;
+  created_at?: string;
+}
+
+export type ApplicationStatus = 'pending' | 'accepted' | 'rejected';
+
+export interface PlanApplication {
+  id: string;
+  plan_id: string;
+  host_id: string;
+  applied_at: string;
+  status: ApplicationStatus;
+  plan?: Plan;
+  host?: ProviderProfile;
 }
 
 // ─── Activities ──────────────────────────────────────────────────────────────
