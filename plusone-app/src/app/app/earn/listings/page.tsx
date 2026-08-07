@@ -92,14 +92,14 @@ export default function HostListingsPage() {
                     padding: '4px 10px',
                     borderRadius: 999,
                     border: '1px solid var(--border)',
-                    background: item.active ? 'color-mix(in oklch, var(--primary) 15%, transparent)' : 'var(--secondary)',
+                    background: item.active ? 'color-mix(in oklch, var(--primary) 15%, transparent)' : 'var(--background)',
                     color: item.active ? 'var(--primary)' : 'var(--muted-foreground)',
                     fontSize: 11,
                     fontWeight: 650,
                     cursor: 'pointer',
                   }}
                 >
-                  {item.active ? '● Active' : '○ Paused'}
+                  {item.active ? 'Active' : 'Paused'}
                 </button>
               </div>
 
@@ -135,7 +135,7 @@ export default function HostListingsPage() {
                     padding: 8,
                     borderRadius: 10,
                     border: '1px solid var(--border)',
-                    background: 'var(--secondary)',
+                    background: 'var(--background)',
                     color: 'var(--foreground)',
                     cursor: 'pointer',
                   }}

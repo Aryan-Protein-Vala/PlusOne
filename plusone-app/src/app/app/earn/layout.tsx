@@ -37,13 +37,13 @@ function HeaderSection() {
           gap: 10,
           padding: '10px 18px',
           borderRadius: 999,
-          border: isAvailable ? '1px solid var(--primary)' : '1px solid var(--border)',
-          background: isAvailable ? 'color-mix(in oklch, var(--primary) 12%, transparent)' : 'var(--secondary)',
-          color: isAvailable ? 'var(--primary)' : 'var(--muted-foreground)',
+          border: isAvailable ? '1px solid oklch(0.78 0.07 150 / 0.3)' : '1px solid var(--border)',
+          background: isAvailable ? 'oklch(0.78 0.07 150 / 0.12)' : 'var(--card)',
+          color: isAvailable ? 'oklch(0.45 0.07 150)' : 'var(--muted-foreground)',
           fontSize: 14,
           fontWeight: 650,
           cursor: 'pointer',
-          boxShadow: isAvailable ? '0 0 20px color-mix(in oklch, var(--primary) 25%, transparent)' : 'none',
+          boxShadow: isAvailable ? '0 0 20px oklch(0.78 0.07 150 / 0.15)' : 'none',
           transition: 'all 0.25s ease',
         }}
       >
@@ -52,8 +52,8 @@ function HeaderSection() {
             width: 10,
             height: 10,
             borderRadius: '50%',
-            background: isAvailable ? 'var(--primary)' : 'var(--destructive)',
-            boxShadow: isAvailable ? '0 0 10px var(--primary)' : 'none',
+            background: isAvailable ? 'oklch(0.45 0.07 150)' : 'var(--destructive)',
+            boxShadow: isAvailable ? '0 0 10px oklch(0.45 0.07 150)' : 'none',
           }}
         />
         <span>{isAvailable ? 'AVAILABLE NOW' : 'OFFLINE'}</span>
@@ -105,19 +105,15 @@ function SubNavBar() {
                 transition: 'color 0.15s ease',
               }}
             >
-              <Icon size={17} style={{ color: isActive ? 'var(--primary)' : 'inherit' }} />
+              <Icon size={17} style={{ color: isActive ? 'var(--foreground)' : 'inherit' }} />
               <span>{tab.label}</span>
               {tab.badge && (
                 <span
+                  className="app-badge app-badge-accent"
                   style={{
                     fontSize: 10,
                     fontWeight: 700,
-                    padding: '2px 6px',
-                    borderRadius: 999,
-                    background: 'var(--accent)',
-                    color: '#fff',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    padding: '2px 8px',
                   }}
                 >
                   {tab.badge}
@@ -132,7 +128,7 @@ function SubNavBar() {
                     left: 0,
                     right: 0,
                     height: 2,
-                    background: 'var(--primary)',
+                    background: 'var(--foreground)',
                     borderRadius: 2,
                   }}
                 />

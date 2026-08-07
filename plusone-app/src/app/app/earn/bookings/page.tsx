@@ -49,14 +49,14 @@ export default function HostBookingsPage() {
 
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', fontSize: 13, color: 'var(--muted-foreground)', marginBottom: 8 }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <MapPin size={14} style={{ color: 'var(--primary)' }} /> {booking.location}
+                  <MapPin size={14} style={{ color: 'var(--muted-foreground)' }} /> {booking.location}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <Clock size={14} style={{ color: 'var(--accent)' }} /> {booking.startTime} - {booking.endTime}
+                  <Clock size={14} style={{ color: 'var(--muted-foreground)' }} /> {booking.startTime} - {booking.endTime}
                 </span>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--primary)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'oklch(0.45 0.07 150)' }}>
                 <ShieldCheck size={14} /> Meeting point: {booking.meetingPoint}
               </div>
             </div>
@@ -64,22 +64,14 @@ export default function HostBookingsPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
               <div style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: 11, color: 'var(--muted-foreground)', textTransform: 'uppercase' }}>Payout Amount</div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{booking.price}</div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--foreground)' }}>₹{booking.price}</div>
               </div>
 
               <button
+                className="app-btn app-btn-outline"
                 style={{
                   padding: '10px 16px',
-                  borderRadius: 14,
-                  border: '1px solid var(--border)',
-                  background: 'var(--secondary)',
-                  color: 'var(--foreground)',
                   fontSize: 13,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 6,
                 }}
               >
                 <MessageSquare size={15} /> Message Guest

@@ -45,7 +45,7 @@ export default function MarketplaceFeedPage() {
           padding: '20px 24px',
           borderRadius: 20,
           marginBottom: 24,
-          background: 'var(--secondary)',
+          background: 'var(--card)',
           border: '1px solid var(--border)',
           display: 'flex',
           justifyContent: 'space-between',
@@ -60,11 +60,10 @@ export default function MarketplaceFeedPage() {
               width: 44,
               height: 44,
               borderRadius: 14,
-              background: 'var(--primary)',
-              color: 'var(--primary-foreground)',
+              background: 'oklch(0.76 0.07 300 / 0.1)',
+              color: 'var(--primary)',
               display: 'grid',
               placeItems: 'center',
-              boxShadow: '0 4px 12px color-mix(in oklch, var(--primary) 30%, transparent)',
             }}
           >
             <Sparkles size={22} />
@@ -77,17 +76,7 @@ export default function MarketplaceFeedPage() {
           </div>
         </div>
 
-        <div
-          style={{
-            fontSize: 12,
-            fontWeight: 650,
-            padding: '6px 14px',
-            borderRadius: 999,
-            background: 'color-mix(in oklch, var(--primary) 12%, transparent)',
-            color: 'var(--primary)',
-            border: '1px solid color-mix(in oklch, var(--primary) 30%, transparent)',
-          }}
-        >
+        <div className="app-badge app-badge-accent" style={{ padding: '6px 14px', fontSize: 12 }}>
           Instant Matching Active
         </div>
       </div>
@@ -103,18 +92,12 @@ export default function MarketplaceFeedPage() {
           <Search size={16} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
           <input
             type="text"
+            className="app-input"
             placeholder="Search plans by title or location..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
-              width: '100%',
-              padding: '10px 14px 10px 40px',
-              borderRadius: 14,
-              border: '1px solid var(--border)',
-              background: 'var(--secondary)',
-              color: 'var(--foreground)',
-              fontSize: 14,
-              outline: 'none',
+              paddingLeft: 40,
             }}
           />
         </div>
@@ -128,13 +111,14 @@ export default function MarketplaceFeedPage() {
               style={{
                 padding: '8px 16px',
                 borderRadius: 20,
-                border: selectedCategory === cat ? '1px solid var(--primary)' : '1px solid var(--border)',
-                background: selectedCategory === cat ? 'color-mix(in oklch, var(--primary) 12%, transparent)' : 'transparent',
-                color: selectedCategory === cat ? 'var(--primary)' : 'var(--muted-foreground)',
+                border: selectedCategory === cat ? '1px solid var(--foreground)' : '1px solid var(--border)',
+                background: selectedCategory === cat ? 'var(--foreground)' : 'transparent',
+                color: selectedCategory === cat ? 'var(--background)' : 'var(--muted-foreground)',
                 fontSize: 13,
                 fontWeight: selectedCategory === cat ? 650 : 500,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
+                transition: 'all 0.15s ease',
               }}
             >
               {cat}
@@ -158,8 +142,9 @@ export default function MarketplaceFeedPage() {
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                border: isApplied ? '1px solid color-mix(in oklch, var(--accent) 40%, transparent)' : '1px solid var(--border)',
-                background: isApplied ? 'color-mix(in oklch, var(--card) 95%, color-mix(in oklch, var(--accent) 8%, transparent))' : 'var(--card)',
+                border: isApplied ? '1px solid var(--primary)' : '1px solid var(--border)',
+                background: 'var(--card)',
+                opacity: isApplied ? 0.8 : 1,
                 transition: 'all 0.2s ease',
               }}
             >
@@ -167,15 +152,11 @@ export default function MarketplaceFeedPage() {
                 {/* Header Badge & Category */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                   <span
+                    className="app-badge app-badge-primary"
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
                       padding: '4px 10px',
-                      borderRadius: 999,
-                      background: 'color-mix(in oklch, var(--primary) 12%, transparent)',
-                      color: 'var(--primary)',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.03em',
                     }}
                   >
                     {plan.category}
@@ -216,7 +197,7 @@ export default function MarketplaceFeedPage() {
                     <MapPin size={15} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                     <span style={{ fontWeight: 500 }}>{plan.location}</span>
                     {plan.distance && (
-                      <span style={{ fontSize: 11, color: 'var(--muted-foreground)', background: 'var(--secondary)', padding: '2px 6px', borderRadius: 6 }}>
+                      <span style={{ fontSize: 11, color: 'var(--muted-foreground)', background: 'var(--background)', border: '1px solid var(--border)', padding: '2px 6px', borderRadius: 6 }}>
                         {plan.distance}
                       </span>
                     )}
@@ -237,7 +218,8 @@ export default function MarketplaceFeedPage() {
                       gap: 10,
                       padding: '10px 14px',
                       borderRadius: 14,
-                      background: 'var(--secondary)',
+                      background: 'var(--background)',
+                      border: '1px solid var(--border)',
                       marginBottom: 18,
                     }}
                   >
@@ -263,22 +245,15 @@ export default function MarketplaceFeedPage() {
                     <span style={{ fontSize: 11, color: 'var(--muted-foreground)', display: 'block', textTransform: 'uppercase' }}>
                       Fixed Customer Budget
                     </span>
-                    <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--primary)' }}>₹{plan.budget}</span>
+                    <span style={{ fontSize: 22, fontWeight: 800, color: 'var(--foreground)' }}>₹{plan.budget}</span>
                   </div>
 
                   {isApplied && (
                     <div
+                      className="app-badge app-badge-accent"
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 6,
-                        fontSize: 12,
-                        fontWeight: 650,
-                        color: 'var(--accent)',
-                        background: 'color-mix(in oklch, var(--accent) 12%, transparent)',
                         padding: '4px 10px',
-                        borderRadius: 12,
-                        border: '1px solid color-mix(in oklch, var(--accent) 25%, transparent)',
+                        fontSize: 12,
                       }}
                     >
                       <UserCheck size={14} /> Awaiting Selection
@@ -290,27 +265,15 @@ export default function MarketplaceFeedPage() {
                 <button
                   disabled={isApplied}
                   onClick={() => applyToPlan(plan)}
+                  className={`app-btn ${isApplied ? 'app-btn-outline' : 'app-btn-primary'}`}
                   style={{
                     width: '100%',
                     padding: '12px 18px',
-                    borderRadius: 14,
-                    border: 'none',
-                    background: isApplied ? 'var(--secondary)' : 'var(--primary)',
-                    color: isApplied ? 'var(--muted-foreground)' : '#fff',
-                    fontSize: 14,
-                    fontWeight: 700,
-                    cursor: isApplied ? 'default' : 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 8,
-                    boxShadow: isApplied ? 'none' : '0 4px 14px color-mix(in oklch, var(--primary) 35%, transparent)',
-                    transition: 'all 0.2s ease',
                   }}
                 >
                   {isApplied ? (
                     <>
-                      <Check size={16} style={{ color: 'var(--primary)' }} /> Applied for ₹{plan.budget}
+                      <Check size={16} /> Applied for ₹{plan.budget}
                     </>
                   ) : (
                     <>Apply for ₹{plan.budget}</>

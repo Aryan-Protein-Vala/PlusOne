@@ -69,7 +69,7 @@ export default function EarnDashboardPage() {
           padding: '24px 28px',
           borderRadius: 24,
           marginBottom: 32,
-          background: 'var(--secondary)',
+          background: 'var(--card)',
           border: '1px solid var(--border)',
           display: 'flex',
           justifyContent: 'space-between',
@@ -117,14 +117,9 @@ export default function EarnDashboardPage() {
           {MOCK_BOOKINGS.map((booking) => (
             <div
               key={booking.id}
+              className="app-list-item"
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 16px',
-                borderRadius: 16,
-                background: 'var(--secondary)',
-                border: '1px solid var(--border)',
+                padding: '16px 0',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -133,10 +128,11 @@ export default function EarnDashboardPage() {
                     width: 40,
                     height: 40,
                     borderRadius: 12,
-                    background: 'color-mix(in oklch, var(--primary) 15%, transparent)',
+                    background: 'var(--background)',
+                    border: '1px solid var(--border)',
                     display: 'grid',
                     placeItems: 'center',
-                    color: 'var(--primary)',
+                    color: 'var(--foreground)',
                   }}
                 >
                   <CheckCircle size={20} />
@@ -150,17 +146,9 @@ export default function EarnDashboardPage() {
               </div>
 
               <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--primary)' }}>+₹{booking.price}</div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--foreground)', marginBottom: 4 }}>+₹{booking.price}</div>
                 <span
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 600,
-                    padding: '2px 8px',
-                    borderRadius: 999,
-                    background: booking.status === 'completed' ? 'color-mix(in oklch, var(--primary) 15%, transparent)' : 'color-mix(in oklch, var(--accent) 15%, transparent)',
-                    color: booking.status === 'completed' ? 'var(--primary)' : 'var(--accent)',
-                    textTransform: 'uppercase',
-                  }}
+                  className={`app-badge ${booking.status === 'completed' ? 'app-badge-primary' : 'app-badge-secondary'}`}
                 >
                   {booking.status}
                 </span>
