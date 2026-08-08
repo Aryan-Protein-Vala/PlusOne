@@ -170,9 +170,9 @@ export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: bo
           {!isLoggedIn && (
             <Reveal delay={0.24}>
               <div className="hero-actions" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <Link className="button button-primary" href="/auth/login?redirect=/app/explore" style={{ textDecoration: 'none' }}>Find someone <ArrowRight size={16} /></Link>
+                <Link className="button button-primary" href="/auth/login?redirect=/app/explore" style={{ textDecoration: 'none' }}>Find your PlusOne <ArrowRight size={16} /></Link>
                 <span style={{ fontSize: 11, color: 'var(--muted-foreground)', fontWeight: 600, fontFamily: 'var(--font-geist-mono), monospace' }}>OR</span>
-                <Link className="button button-secondary" href="/auth/login?redirect=/app/explore" style={{ textDecoration: 'none' }}>Create a plan <ArrowUpRight size={16} /></Link>
+                <Link className="button button-secondary" href="/auth/login?redirect=/app/earn" style={{ textDecoration: 'none', margin: 0 }}>Earn money <ArrowUpRight size={16} /></Link>
               </div>
             </Reveal>
           )}
