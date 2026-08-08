@@ -180,13 +180,14 @@ export default function UnifiedAppNav() {
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-[var(--foreground)] mb-1">What are you offering? (₹)</label>
-                      <input type="number" name="budget" required placeholder="800" className="app-input w-full" />
+                      <input type="number" name="budget" required placeholder="e.g. 800" min="1" className="app-input w-full" />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Details</label>
-                    <textarea name="description" placeholder="Looking for someone who enjoys sci-fi..." className="app-input w-full min-h-[80px] resize-y" />
+                    <textarea name="description" placeholder="Looking for someone who enjoys sci-fi and bad plot theories..." className="app-input w-full min-h-[80px] resize-y" />
+                    <p className="text-xs text-[var(--muted-foreground)] m-0">Lawful plans only. No sexual services, scams, illegal activity, or minors.</p>
                   </div>
 
                   {createError && <p className="text-xs text-red-600 m-0" role="alert">{createError}</p>}

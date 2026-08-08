@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { containsProhibitedContent, PROHIBITED_CONTENT_MESSAGE } from '@/lib/content-moderation'
 
 const INDIA_COUNTRY = 'IN'
 const INDIA_CURRENCY = 'INR'
@@ -91,8 +92,9 @@ export async function createListing(formData: FormData): Promise<ActionResult> {
   const hourlyRate = positiveNumber(formData.get('hourlyRate'))
 
   if (title.length < 3 || description.length < 10 || !category || !city || !hourlyRate) {
-    return { error: 'Please complete every listing field with valid information.' }
+    return { error: 'Please complete every offer field with valid information.' }
   }
+  if (containsProhibitedContent(title, description, category)) return { error: PROHIBITED_CONTENT_MESSAGE }
 
   const { error } = await supabase.from('provider_listings').insert({
     host_id: user.id,
@@ -125,8 +127,9 @@ export async function updateListing(listingId: string, formData: FormData): Prom
   const hourlyRate = positiveNumber(formData.get('hourlyRate'))
 
   if (title.length < 3 || description.length < 10 || !category || !city || !hourlyRate) {
-    return { error: 'Please complete every listing field with valid information.' }
+    return { error: 'Please complete every offer field with valid information.' }
   }
+  if (containsProhibitedContent(title, description, category)) return { error: PROHIBITED_CONTENT_MESSAGE }
 
   const { error } = await supabase
     .from('provider_listings')

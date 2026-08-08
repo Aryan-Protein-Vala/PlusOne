@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { containsProhibitedContent, PROHIBITED_CONTENT_MESSAGE } from '@/lib/content-moderation'
 
 export async function createPlan(formData: FormData) {
   const supabase = await createClient()
@@ -15,8 +16,9 @@ export async function createPlan(formData: FormData) {
   const description = String(formData.get('description') || '').trim()
 
   if (!activity || !location || !Number.isFinite(budget) || budget <= 0) {
-    return { error: 'Please provide an activity, location, and a valid charge.' }
+    return { error: 'Please provide an activity, location, and a valid offer.' }
   }
+  if (containsProhibitedContent(activity, location, description)) return { error: PROHIBITED_CONTENT_MESSAGE }
   
   // Combine date and time for start_time
   const date = String(formData.get('date') || '')
