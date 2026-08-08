@@ -125,7 +125,7 @@ export default function RegisterPage() {
             <motion.div key="step1" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div>
                 <label className="app-label" htmlFor="fullName"><User size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />Full name</label>
-                <input id="fullName" name="fullName" value={formDataState.fullName} onChange={handleChange} className="app-input" type="text" placeholder="Aryan Kapoor" required />
+                <input id="fullName" name="fullName" value={formDataState.fullName} onChange={handleChange} className="app-input" type="text" placeholder="Aryan Sharma" required />
               </div>
               <div>
                 <label className="app-label" htmlFor="email"><Mail size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />Email</label>
@@ -133,7 +133,7 @@ export default function RegisterPage() {
               </div>
               <div>
                 <label className="app-label" htmlFor="phone"><Phone size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />Phone</label>
-                <input id="phone" name="phone" value={formDataState.phone} onChange={handleChange} className="app-input" type="tel" placeholder="+91 98765 43210" required />
+                <input id="phone" name="phone" value={formDataState.phone} onChange={handleChange} className="app-input" type="tel" placeholder="+91 99999 99999" required />
               </div>
               <div>
                 <label className="app-label" htmlFor="city"><MapPin size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />City</label>
