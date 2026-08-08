@@ -189,106 +189,146 @@ const bakchodReviews = [
 
 function ReviewCarousel() {
   const [index, setIndex] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
 
   useEffect(() => {
+    if (isPaused) return
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % bakchodReviews.length)
     }, 2500) // Fast state rotation (2.5s)
     return () => clearInterval(timer)
-  }, [])
+  }, [isPaused])
 
   const current = bakchodReviews[index]
 
   return (
-    <section className="section-wrap quote-section" style={{ minHeight: 360, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+    <section
+      className="section-wrap quote-section"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      style={{ minHeight: 360, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
+    >
       <Reveal>
-        <div className="quote-mark" style={{ marginBottom: 8 }}>&ldquo;</div>
-        
-        <div style={{ position: 'relative', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 840 }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.98 }}
-              transition={{ duration: 0.22, ease: 'easeOut' }}
-              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
-            >
-              <blockquote style={{ margin: '0 auto 24px', minHeight: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {current.quote}
-              </blockquote>
-              <div className="quote-credit">
-                <span className="credit-avatar">{current.initials}</span>
-                <span>
-                  {current.name} <small>{current.meta}</small>
-                </span>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Fast switching carousel controls */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 36 }}>
-          <button
-            type="button"
-            onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
-            aria-label="Previous review"
-            style={{
-              background: 'transparent',
-              border: '1px solid var(--border)',
-              borderRadius: '50%',
-              width: 34,
-              height: 34,
-              display: 'grid',
-              placeItems: 'center',
-              color: 'var(--muted-foreground)',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <ChevronLeft size={16} />
-          </button>
-
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-            {bakchodReviews.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setIndex(i)}
-                aria-label={`Go to review ${i + 1}`}
-                style={{
-                  width: i === index ? 24 : 8,
-                  height: 8,
-                  borderRadius: 99,
-                  background: i === index ? 'var(--primary)' : 'var(--border)',
-                  border: 0,
-                  cursor: 'pointer',
-                  transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
-                }}
-              />
-            ))}
+        <motion.div
+          animate={{ scale: isPaused ? 1.02 : 1 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <div className="quote-mark" style={{ marginBottom: 8 }}>&ldquo;</div>
+          
+          <div style={{ position: 'relative', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 840 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+              >
+                <blockquote style={{ margin: '0 auto 24px', minHeight: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {current.quote}
+                </blockquote>
+                <div className="quote-credit">
+                  <span className="credit-avatar">{current.initials}</span>
+                  <span>
+                    {current.name} <small>{current.meta}</small>
+                  </span>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setIndex((prev) => (prev + 1) % bakchodReviews.length)}
-            aria-label="Next review"
-            style={{
-              background: 'transparent',
-              border: '1px solid var(--border)',
-              borderRadius: '50%',
-              width: 34,
-              height: 34,
-              display: 'grid',
-              placeItems: 'center',
-              color: 'var(--muted-foreground)',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-            }}
-          >
-            <ChevronRight size={16} />
-          </button>
-        </div>
+          {/* Animated Pause Badge indicator on hover */}
+          <div style={{ height: 24, marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <AnimatePresence>
+              {isPaused && (
+                <motion.span
+                  initial={{ opacity: 0, y: 4, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.9 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 600,
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                    color: 'var(--primary)',
+                    background: 'oklch(0.76 0.07 300 / 0.12)',
+                    padding: '4px 12px',
+                    borderRadius: 99,
+                    border: '1px solid oklch(0.76 0.07 300 / 0.25)',
+                  }}
+                >
+                  Paused ⏸
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Fast switching carousel controls */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 24 }}>
+            <button
+              type="button"
+              onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
+              aria-label="Previous review"
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--border)',
+                borderRadius: '50%',
+                width: 34,
+                height: 34,
+                display: 'grid',
+                placeItems: 'center',
+                color: 'var(--muted-foreground)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <ChevronLeft size={16} />
+            </button>
+
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+              {bakchodReviews.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={`Go to review ${i + 1}`}
+                  style={{
+                    width: i === index ? 24 : 8,
+                    height: 8,
+                    borderRadius: 99,
+                    background: i === index ? 'var(--primary)' : 'var(--border)',
+                    border: 0,
+                    cursor: 'pointer',
+                    transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIndex((prev) => (prev + 1) % bakchodReviews.length)}
+              aria-label="Next review"
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--border)',
+                borderRadius: '50%',
+                width: 34,
+                height: 34,
+                display: 'grid',
+                placeItems: 'center',
+                color: 'var(--muted-foreground)',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </motion.div>
       </Reveal>
     </section>
   )
