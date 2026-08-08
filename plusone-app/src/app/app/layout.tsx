@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import UnifiedAppNav from "@/components/UnifiedAppNav";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "PlusOne",
   description: "Find your PlusOne.",
