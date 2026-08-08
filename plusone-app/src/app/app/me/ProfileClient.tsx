@@ -19,10 +19,10 @@ export default function ProfileClient({ profile }: { profile: { name?: string; p
   const isSuccess = message === 'Profile saved successfully!'
 
   return (
-    <form action={submit} className="app-card" style={{ padding: 28, display: 'grid', gap: 20 }}>
+    <form action={submit} className="app-card" style={{ padding: '24px 20px', display: 'grid', gap: 18, width: '100%', boxSizing: 'border-box' }}>
       <h3 style={{ margin: 0, fontSize: 18, fontWeight: 600, letterSpacing: '-0.02em' }}>Public Details</h3>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 14 }}>
         <div>
           <label className="app-label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <User size={13} style={{ color: 'var(--muted-foreground)' }} /> Name

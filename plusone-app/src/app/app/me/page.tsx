@@ -16,20 +16,20 @@ export default async function MePage() {
     : { data: null }
 
   return (
-    <div className="app-container" style={{ maxWidth: 1000, margin: '0 auto', padding: '40px 24px' }}>
-      <div style={{ marginBottom: 32 }}>
-        <h1 style={{ margin: '0 0 6px', fontSize: 32, fontWeight: 650 }}>Your Profile</h1>
-        <p style={{ margin: 0, color: 'var(--muted-foreground)' }}>Your PlusOne identity, editable whenever you want.</p>
+    <div className="app-container" style={{ maxWidth: 960, margin: '0 auto', padding: '32px 20px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <h1 style={{ margin: '0 0 6px', fontSize: 'clamp(26px, 5vw, 32px)', fontWeight: 650 }}>Your Profile</h1>
+        <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 14 }}>Your PlusOne identity, editable whenever you want.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 28, alignItems: 'start' }}>
+      <div className="me-layout-grid">
         {/* Left: Edit Form */}
         <ProfileClient profile={profile || { email: user?.email }} />
 
         {/* Right: Security & Meta */}
-        <div style={{ display: 'grid', gap: 20 }}>
+        <div style={{ display: 'grid', gap: 20, width: '100%' }}>
           {/* Card 1: Visual Identity & Trust */}
-          <div className="app-card" style={{ padding: 28, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+          <div className="app-card" style={{ padding: '24px 20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', position: 'relative', overflow: 'hidden', width: '100%', boxSizing: 'border-box' }}>
             {/* Corner Verification Stamp */}
             {profile?.is_verified && (
               <span className="app-badge app-badge-accent" style={{ position: 'absolute', top: 16, right: 16 }}>
