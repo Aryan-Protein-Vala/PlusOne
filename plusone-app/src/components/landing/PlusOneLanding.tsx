@@ -209,21 +209,17 @@ function ReviewCarousel() {
       style={{ minHeight: 360, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
     >
       <Reveal>
-        <motion.div
-          animate={{ scale: isPaused ? 1.02 : 1 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-        >
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div className="quote-mark" style={{ marginBottom: 8 }}>&ldquo;</div>
           
           <div style={{ position: 'relative', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 840 }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 12, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                transition={{ duration: 0.22, ease: 'easeOut' }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
               >
                 <blockquote style={{ margin: '0 auto 24px', minHeight: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -239,35 +235,8 @@ function ReviewCarousel() {
             </AnimatePresence>
           </div>
 
-          {/* Animated Pause Badge indicator on hover */}
-          <div style={{ height: 24, marginTop: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <AnimatePresence>
-              {isPaused && (
-                <motion.span
-                  initial={{ opacity: 0, y: 4, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 4, scale: 0.9 }}
-                  transition={{ duration: 0.2, ease: 'easeOut' }}
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 600,
-                    letterSpacing: '0.04em',
-                    textTransform: 'uppercase',
-                    color: 'var(--primary)',
-                    background: 'oklch(0.76 0.07 300 / 0.12)',
-                    padding: '4px 12px',
-                    borderRadius: 99,
-                    border: '1px solid oklch(0.76 0.07 300 / 0.25)',
-                  }}
-                >
-                  Paused ⏸
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </div>
-
-          {/* Fast switching carousel controls */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 24 }}>
+          {/* Stationary controls */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 32 }}>
             <button
               type="button"
               onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
@@ -328,7 +297,7 @@ function ReviewCarousel() {
               <ChevronRight size={16} />
             </button>
           </div>
-        </motion.div>
+        </div>
       </Reveal>
     </section>
   )
