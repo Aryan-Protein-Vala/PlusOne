@@ -64,10 +64,12 @@ export default function LoginPage() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         style={{ width: 'min(420px, calc(100% - 48px))' }}
       >
-        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: 'var(--foreground)', textDecoration: 'none', fontWeight: 700, fontSize: 17, letterSpacing: '-.04em', marginBottom: 48 }}>
-          <LogoMark />
-          <span>plusone</span>
-        </Link>
+        <div style={{ marginBottom: 48 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: 'var(--foreground)', textDecoration: 'none', fontWeight: 700, fontSize: 17, letterSpacing: '-.04em' }}>
+            <LogoMark />
+            <span>plusone</span>
+          </Link>
+        </div>
 
         <div className="status-pill" style={{ marginBottom: 20 }}>
           <span className="status-dot" /> Welcome back
@@ -137,6 +139,7 @@ export default function LoginPage() {
           </button>
         </form>
 
+        {/* Google sign-in commented out temporarily
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '24px 0' }}>
           <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
           <span style={{ fontSize: 11, color: 'var(--muted-foreground)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>or</span>
@@ -158,6 +161,7 @@ export default function LoginPage() {
           </svg>
           Continue with Google
         </button>
+        */}
 
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 24 }}>
           <Link href="/auth/register" style={{ color: 'var(--primary)', fontSize: 12, textDecoration: 'none', fontWeight: 600 }}>
