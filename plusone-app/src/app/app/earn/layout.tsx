@@ -15,7 +15,6 @@ import {
 } from 'lucide-react'
 import { EarnProvider } from '@/components/earn/EarnContext'
 import { StatusToggle } from '@/components/earn/StatusToggle'
-import { LiveMatchOverlay } from '@/components/earn/LiveMatchOverlay'
 
 function HeaderSection() {
   return (
@@ -101,7 +100,6 @@ function SubNavBar() {
 function EarnLayoutInner({ children }: { children: React.ReactNode }) {
   return (
     <div className="app-container" style={{ maxWidth: 960 }}>
-      <LiveMatchOverlay />
       <HeaderSection />
       <SubNavBar />
       <div>{children}</div>

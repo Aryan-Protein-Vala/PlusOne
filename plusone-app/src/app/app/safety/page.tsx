@@ -26,12 +26,12 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 const safetyFeatures = [
-  { icon: UserCheck, title: 'Identity Verification', desc: 'Every user verifies their identity before meeting anyone. Government ID, selfie, and phone verification.', status: 'active' },
-  { icon: MapPin, title: 'Live Location Sharing', desc: 'Share your real-time location with trusted contacts during meetups for peace of mind.', status: 'active' },
-  { icon: Phone, title: 'Emergency SOS', desc: 'One-tap emergency button connects you to local emergency services and shares your location.', status: 'active' },
-  { icon: Eye, title: 'AI Content Moderation', desc: 'Messages are monitored to detect and prevent inappropriate content, harassment, or suspicious activity.', status: 'coming' },
-  { icon: Lock, title: 'Secure Payments', desc: 'All payments are held in escrow until the activity is completed. No off-platform payments.', status: 'active' },
-  { icon: Shield, title: 'Community Guidelines', desc: 'Strict rules against any illegal, sexual, or harmful activity. Violations lead to permanent bans.', status: 'active' },
+  { icon: UserCheck, title: 'Profile checks', desc: 'Verification is being rolled out. Complete your profile and never meet someone without checking their details first.', status: 'coming' },
+  { icon: MapPin, title: 'Public meetups', desc: 'Meet in a busy public place, tell someone you trust, and keep your home address private.', status: 'active' },
+  { icon: Phone, title: 'Emergency help', desc: 'For an immediate emergency in India, call 112. PlusOne cannot replace emergency services.', status: 'active' },
+  { icon: Eye, title: 'Content checks', desc: 'New offers and plans are checked for sexual services, scams, illegal activity, and anything involving minors.', status: 'active' },
+  { icon: Lock, title: 'Payments are not live yet', desc: 'Do not pay outside PlusOne. Payment and payout protection will activate only after the payment system launches.', status: 'coming' },
+  { icon: Shield, title: 'Community guidelines', desc: 'PlusOne is for lawful social activities and earning through shared plans — not dating services or sexual activity.', status: 'active' },
 ]
 
 const tips = [
@@ -65,12 +65,12 @@ export default function SafetyPage() {
           <div style={{ flex: 1 }}>
             <span style={{ color: 'var(--muted-foreground)', font: '10px var(--font-geist-mono), monospace', textTransform: 'uppercase', letterSpacing: '.05em' }}>Your safety score</span>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-              <span style={{ fontSize: 36, fontWeight: 520, letterSpacing: '-.06em' }}>92</span>
-              <span style={{ fontSize: 12, color: 'var(--muted-foreground)' }}>/ 100</span>
+              <span style={{ fontSize: 24, fontWeight: 520, letterSpacing: '-.04em' }}>Start here</span>
+              <span style={{ fontSize: 12, color: 'var(--muted-foreground)' }}>before your first plan</span>
             </div>
           </div>
-          <Link href="/legal/verification-page" className="app-btn app-btn-primary app-btn-sm" style={{ display: 'inline-flex' }}>
-            Improve score <ArrowRight size={13} />
+          <Link href="/legal/guidelines" className="app-btn app-btn-primary app-btn-sm" style={{ display: 'inline-flex' }}>
+            Read the rules <ArrowRight size={13} />
           </Link>
         </div>
       </Reveal>
@@ -132,9 +132,9 @@ export default function SafetyPage() {
       <Reveal delay={0.26}>
         <div style={{ marginTop: 40, textAlign: 'center', padding: '48px 0' }}>
           <p style={{ color: 'var(--muted-foreground)', fontSize: 12, marginBottom: 16 }}>Need immediate help?</p>
-          <button className="app-btn app-btn-destructive">
-            <Phone size={15} /> Emergency SOS
-          </button>
+          <a href="tel:112" className="app-btn app-btn-destructive" style={{ display: 'inline-flex', textDecoration: 'none' }}>
+            <Phone size={15} /> Call 112
+          </a>
           <p style={{ color: 'var(--muted-foreground)', font: '9px var(--font-geist-mono), monospace', marginTop: 12 }}>
             This will alert emergency services and share your location
           </p>

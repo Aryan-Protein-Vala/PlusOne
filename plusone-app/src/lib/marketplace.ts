@@ -37,10 +37,10 @@ export async function getPublishedListings(options?: { city?: string; category?:
   return (data || []) as Listing[]
 }
 
-export async function getMyListings() {
+export async function getMyListingsResult() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return []
+  if (!user) return { data: [] as Listing[], error: 'Please log in to see your offers.' }
 
   const { data, error } = await supabase
     .from('provider_listings')
@@ -49,10 +49,15 @@ export async function getMyListings() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Unable to load your listings:', error.message)
-    return []
+    console.error('Unable to load your offers:', error.message)
+    return { data: [] as Listing[], error: error.message }
   }
-  return (data || []) as Listing[]
+  return { data: (data || []) as Listing[], error: null }
+}
+
+export async function getMyListings() {
+  const result = await getMyListingsResult()
+  return result.data
 }
 
 export async function getMyBookings() {
