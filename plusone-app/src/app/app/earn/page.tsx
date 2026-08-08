@@ -9,19 +9,20 @@ export default async function EarnDashboardPage() {
   let bookings: any[] = []
 
   if (user) {
-    const l = await s
-      .from('provider_listings')
-      .select('id,title,city,hourly_rate,status')
-      .eq('host_id', user.id)
-      .order('created_at', { ascending: false })
+    const [l, b] = await Promise.all([
+      s
+        .from('provider_listings')
+        .select('id,title,city,hourly_rate,status')
+        .eq('host_id', user.id)
+        .order('created_at', { ascending: false }),
+      s
+        .from('bookings')
+        .select('id,status,amount,currency')
+        .eq('host_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(10),
+    ])
     listings = l.data || []
-
-    const b = await s
-      .from('bookings')
-      .select('id,status,amount,currency')
-      .eq('host_id', user.id)
-      .order('created_at', { ascending: false })
-      .limit(10)
     bookings = b.data || []
   }
 

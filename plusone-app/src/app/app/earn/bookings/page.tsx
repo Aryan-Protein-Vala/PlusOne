@@ -5,6 +5,6 @@ import BookingsClient from './BookingsClient'
 export default async function HostBookingsPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  const bookings = await getMyBookings()
+  const bookings = await getMyBookings(user?.id)
   return <BookingsClient bookings={bookings} currentUserId={user?.id ?? null} />
 }

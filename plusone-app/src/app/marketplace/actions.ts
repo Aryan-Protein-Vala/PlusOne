@@ -47,7 +47,7 @@ function positiveNumber(value: FormDataEntryValue | null) {
 }
 
 export async function loadPublishedListings(city?: string, category?: string) {
-  const { supabase } = await currentUser()
+  const supabase = await createClient()
   let query = supabase
     .from('provider_listings')
     .select('id, host_id, title, description, category, city, country_code, timezone, hourly_rate, currency, status, created_at')
@@ -248,7 +248,7 @@ export async function reportUser(reportedUserId: string | null, category: string
 }
 
 export async function loadOpenPlans() {
-  const { supabase } = await currentUser()
+  const supabase = await createClient()
   // E4: only return future plans — filter out anything that already started
   const now = new Date().toISOString()
   const { data, error } = await supabase

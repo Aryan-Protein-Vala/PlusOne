@@ -60,15 +60,19 @@ export async function getMyListings() {
   return result.data
 }
 
-export async function getMyBookings() {
+export async function getMyBookings(userId?: string) {
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return []
+  let targetId = userId
+  if (!targetId) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return []
+    targetId = user.id
+  }
 
   const { data, error } = await supabase
     .from('bookings')
     .select('id, listing_id, customer_id, host_id, starts_at, ends_at, location, amount, currency, platform_fee, provider_payout, status, payment_status, created_at')
-    .or(`customer_id.eq.${user.id},host_id.eq.${user.id}`)
+    .or(`customer_id.eq.${targetId},host_id.eq.${targetId}`)
     .order('starts_at', { ascending: true })
 
   if (error) {

@@ -39,7 +39,8 @@ export async function middleware(req: NextRequest) {
 
     const { data } = await supabase.auth.getUser()
     user = data?.user ?? null
-    if (user) {
+    // ONLY fetch profile role if navigating to an /admin route
+    if (user && req.nextUrl.pathname.startsWith('/admin')) {
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')

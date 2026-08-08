@@ -21,7 +21,7 @@ const navItems = [
   { icon: Compass, label: 'Explore', href: '/app/explore' },
   { icon: null, label: 'Create', href: '#create', isCreate: true }, // Placeholder for Create Action
   { icon: BadgeIndianRupee, label: 'Earn', href: '/app/earn' },
-  { icon: MessageCircle, label: 'Chats', href: '/app/chats' },
+  { icon: MessageCircle, label: 'Chats', href: '/app/messages' },
   { icon: UserCircle2, label: 'Me', href: '/app/me' },
 ]
 
