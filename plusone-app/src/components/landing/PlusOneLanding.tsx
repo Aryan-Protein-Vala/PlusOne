@@ -206,30 +206,44 @@ function ReviewCarousel() {
       className="section-wrap quote-section"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      style={{ minHeight: 380, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
     >
       <Reveal>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
           <div className="quote-mark" style={{ marginBottom: 12 }}>&ldquo;</div>
-          
-          {/* Normal flow container with minHeight so text never squeezes and controls stay 100% stationary */}
-          <div style={{ minHeight: 200, width: '100%', maxWidth: 760, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+
+          {/*
+            ROOT FIX: outer div has a FIXED height (not minHeight).
+            The animating motion.div is position:absolute so it occupies
+            zero flow-space — the container never changes height, so
+            nothing below ever moves.
+          */}
+          <div style={{
+            position: 'relative',
+            height: 240,
+            width: '100%',
+            maxWidth: 760,
+            overflow: 'hidden',
+          }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
+                exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
                 style={{
-                  width: '100%',
+                  position: 'absolute',
+                  inset: 0,
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   textAlign: 'center',
+                  padding: '0 8px',
                 }}
               >
-                <blockquote style={{ margin: '0 auto 20px', minHeight: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 760 }}>
+                <blockquote style={{ margin: '0 auto 18px', width: '100%' }}>
                   {current.quote}
                 </blockquote>
                 <div className="quote-credit">
@@ -242,7 +256,7 @@ function ReviewCarousel() {
             </AnimatePresence>
           </div>
 
-          {/* Locked controls position */}
+          {/* Controls are always exactly 24px below the fixed-height container — never move */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 24 }}>
             <button
               type="button"
@@ -258,7 +272,7 @@ function ReviewCarousel() {
                 placeItems: 'center',
                 color: 'var(--muted-foreground)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'color 0.15s ease',
               }}
             >
               <ChevronLeft size={16} />
@@ -298,7 +312,7 @@ function ReviewCarousel() {
                 placeItems: 'center',
                 color: 'var(--muted-foreground)',
                 cursor: 'pointer',
-                transition: 'all 0.15s ease',
+                transition: 'color 0.15s ease',
               }}
             >
               <ChevronRight size={16} />
@@ -351,11 +365,11 @@ export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: bo
 
       <ReviewCarousel />
 
-      <section id="cta" className="section-wrap cta-section"><div className="cta-orbit" /><Reveal><div className="status-pill"><span className="status-dot" /> Coming soon to your city</div><h2>Stop being lonely.<br /><em>Secure your spot.</em></h2><p>Get early access to verified companions and hefty hosting side-hustles in your city.</p>
+      <section id="cta" className="section-wrap cta-section"><div className="cta-orbit" /><Reveal><div className="status-pill"><span className="status-dot" /> Dropping everywhere, very soon</div><h2>Stop being lonely.<br /><em>Secure your spot.</em></h2><p>PlusOne is building everywhere — India and beyond. Sign up now and be the first in your city when we go live.</p>
         {isLoggedIn ? (
           <Link className="button button-primary" href="/app/explore" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>Open App <ArrowRight size={16} /></Link>
         ) : (
-          <Link className="button button-primary" href="/auth/register" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>Get started <ArrowRight size={16} /></Link>
+          <Link className="button button-primary" href="/auth/register" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>Get early access <ArrowRight size={16} /></Link>
         )}
       </Reveal></section>
 
