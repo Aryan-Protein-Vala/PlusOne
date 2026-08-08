@@ -119,9 +119,6 @@ export const REFUND_POLICY = {
   seekerNoShow: { refund: "No refund + penalty on seeker" },
 };
 
-export const APPLE_SOCIAL_APP_ID = "YOUR_APPLE_APP_ID";
-export const GOOGLE_WEB_CLIENT_ID = "YOUR_GOOGLE_WEB_CLIENT_ID";
-export const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_KEY_ID";
 
 export const SUPPORT_EMAIL = "hello@plusone.app";
 export const PRIVACY_EMAIL = "privacy@plusone.app";

@@ -222,3 +222,20 @@ export async function reportUser(reportedUserId: string | null, category: string
   revalidatePath('/app/safety')
   return { success: true }
 }
+
+export async function loadOpenPlans() {
+  const { supabase } = await currentUser()
+  const { data, error } = await supabase.from('plans').select('id, creator_id, activity, location, start_time, budget, currency, description, status').eq('country_code', INDIA_COUNTRY).eq('currency', INDIA_CURRENCY).eq('status', 'open').order('start_time', { ascending: true }).limit(50)
+  return { data: data || [], error: error?.message || null }
+}
+
+export async function applyToPlanReal(planId: string, proposedRate: number, message: string): Promise<ActionResult> {
+  const { supabase, user } = await currentUser()
+  if (!user) return { error: 'Please log in before applying.' }
+  if (!planId || !Number.isFinite(proposedRate) || proposedRate <= 0 || message.trim().length < 5) return { error: 'Please provide a valid charge and message.' }
+  const { error } = await supabase.from('plan_applications').insert({ plan_id: planId, applicant_id: user.id, proposed_rate: proposedRate, message: message.trim() })
+  if (error) return { error: error.message }
+  revalidatePath('/app/earn/marketplace')
+  revalidatePath('/app/earn/applications')
+  return { success: true }
+}
