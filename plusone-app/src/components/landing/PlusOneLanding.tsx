@@ -208,22 +208,24 @@ function ReviewCarousel() {
       onMouseLeave={() => setIsPaused(false)}
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
     >
-      <Reveal>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <Reveal className="w-full flex flex-col items-center">
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', maxWidth: 760 }}>
           <div className="quote-mark" style={{ marginBottom: 12 }}>&ldquo;</div>
 
           {/*
-            ROOT FIX: outer div has a FIXED height (not minHeight).
-            The animating motion.div is position:absolute so it occupies
-            zero flow-space — the container never changes height, so
-            nothing below ever moves.
+            CSS Grid gridArea 1/1 Fix:
+            Forces 100% full width (760px) on motion.div without collapsing
+            intrinsic flexbox width, so text NEVER squeezes into a vertical column.
           */}
           <div style={{
-            position: 'relative',
-            height: 240,
+            display: 'grid',
+            gridTemplateColumns: '1fr',
+            gridTemplateRows: '1fr',
             width: '100%',
             maxWidth: 760,
-            overflow: 'hidden',
+            minHeight: 180,
+            alignItems: 'center',
+            justifyItems: 'center',
           }}>
             <AnimatePresence mode="wait">
               <motion.div
@@ -233,8 +235,7 @@ function ReviewCarousel() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
                 style={{
-                  position: 'absolute',
-                  inset: 0,
+                  gridArea: '1 / 1 / 2 / 2',
                   width: '100%',
                   display: 'flex',
                   flexDirection: 'column',
@@ -244,7 +245,7 @@ function ReviewCarousel() {
                   padding: '0 8px',
                 }}
               >
-                <blockquote style={{ margin: '0 auto 18px', width: '100%' }}>
+                <blockquote style={{ margin: '0 auto 18px', width: '100%', textAlign: 'center' }}>
                   {current.quote}
                 </blockquote>
                 <div className="quote-credit">
@@ -257,8 +258,8 @@ function ReviewCarousel() {
             </AnimatePresence>
           </div>
 
-          {/* Controls are always exactly 24px below the fixed-height container — never move */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 24 }}>
+          {/* Locked controls position */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 28 }}>
             <button
               type="button"
               onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
