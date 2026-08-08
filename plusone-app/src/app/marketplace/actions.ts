@@ -249,7 +249,17 @@ export async function reportUser(reportedUserId: string | null, category: string
 
 export async function loadOpenPlans() {
   const { supabase } = await currentUser()
-  const { data, error } = await supabase.from('plans').select('id, creator_id, activity, location, start_time, budget, currency, description, status').eq('country_code', INDIA_COUNTRY).eq('currency', INDIA_CURRENCY).eq('status', 'open').order('start_time', { ascending: true }).limit(50)
+  // E4: only return future plans — filter out anything that already started
+  const now = new Date().toISOString()
+  const { data, error } = await supabase
+    .from('plans')
+    .select('id, creator_id, activity, location, start_time, budget, currency, description, status')
+    .eq('country_code', INDIA_COUNTRY)
+    .eq('currency', INDIA_CURRENCY)
+    .eq('status', 'open')
+    .gte('start_time', now)
+    .order('start_time', { ascending: true })
+    .limit(50)
   return { data: data || [], error: error?.message || null }
 }
 
@@ -257,6 +267,16 @@ export async function applyToPlanReal(planId: string, proposedRate: number, mess
   const { supabase, user } = await currentUser()
   if (!user) return { error: 'Please log in before applying.' }
   if (!planId || !Number.isFinite(proposedRate) || proposedRate <= 0 || message.trim().length < 5) return { error: 'Please provide a valid charge and message.' }
+
+  // E3: guard against duplicate applications
+  const { data: existing } = await supabase
+    .from('plan_applications')
+    .select('id')
+    .eq('plan_id', planId)
+    .eq('applicant_id', user.id)
+    .maybeSingle()
+  if (existing) return { error: 'You have already applied to this plan. Chill, they will get back to you.' }
+
   const { error } = await supabase.from('plan_applications').insert({ plan_id: planId, applicant_id: user.id, proposed_rate: proposedRate, message: message.trim() })
   if (error) return { error: error.message }
   revalidatePath('/app/earn/marketplace')
@@ -279,10 +299,20 @@ export async function acceptPlanApplication(applicationId: string): Promise<Acti
   const endsAt = new Date(startsAt.getTime() + 60 * 60 * 1000)
   const amount = Number(application.proposed_rate || plan.budget)
   const platformFee = Math.round(amount * 0.15 * 100) / 100
-  const { data: booking, error: bookingError } = await supabase.from('bookings').insert({ plan_id: plan.id, customer_id: user.id, host_id: application.applicant_id, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), location: plan.location, amount, currency: 'INR', platform_fee: platformFee, provider_payout: amount - platformFee, status: 'accepted', payment_status: 'unpaid' }).select('id').single()
+  const { data: booking, error: bookingError } = await supabase
+    .from('bookings')
+    .insert({ plan_id: plan.id, customer_id: user.id, host_id: application.applicant_id, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), location: plan.location, amount, currency: 'INR', platform_fee: platformFee, provider_payout: amount - platformFee, status: 'accepted', payment_status: 'unpaid' })
+    .select('id')
+    .single()
   if (bookingError || !booking) return { error: bookingError?.message || 'Could not create the booking.' }
+
+  // E5: if conversation creation fails, clean up the booking so we don't leave an orphan
   const { error: conversationError } = await supabase.from('conversations').insert({ booking_id: booking.id })
-  if (conversationError) return { error: conversationError.message }
+  if (conversationError) {
+    await supabase.from('bookings').delete().eq('id', booking.id)
+    return { error: 'Could not set up the chat. Please try again.' }
+  }
+
   const { error: updateError } = await supabase.from('plan_applications').update({ status: 'accepted' }).eq('id', applicationId)
   if (updateError) return { error: updateError.message }
   await supabase.from('plans').update({ status: 'matched' }).eq('id', plan.id).eq('creator_id', user.id)

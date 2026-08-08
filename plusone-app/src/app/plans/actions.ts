@@ -8,7 +8,7 @@ export async function createPlan(formData: FormData) {
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) throw new Error('Not logged in')
+  if (!user) return { error: 'Please log in first before posting a plan.' }
 
   const activity = String(formData.get('activity') || '').trim()
   const location = String(formData.get('location') || '').trim()
