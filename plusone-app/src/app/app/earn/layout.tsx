@@ -13,52 +13,20 @@ import {
   Zap,
   Power
 } from 'lucide-react'
-import { EarnProvider, useEarn } from '@/components/earn/EarnContext'
+import { EarnProvider } from '@/components/earn/EarnContext'
+import { StatusToggle } from '@/components/earn/StatusToggle'
 import { LiveMatchOverlay } from '@/components/earn/LiveMatchOverlay'
 
 function HeaderSection() {
-  const { isAvailable, toggleAvailable } = useEarn()
-
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 28 }}>
-      <div>
-        <h1 style={{ fontSize: 28, fontWeight: 700, margin: '0 0 6px', letterSpacing: '-0.02em' }}>Host Portal</h1>
-        <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 15 }}>
-          Adaptive fixed-price matching & active hosting dashboard
-        </p>
+    <div style={{ marginBottom: 24 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 18 }}>
+        <div>
+          <h1 style={{ fontSize: 'clamp(26px, 4vw, 34px)', fontWeight: 700, margin: '0 0 6px', letterSpacing: '-0.03em' }}>Earn money</h1>
+          <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 15 }}>Be someone&apos;s PlusOne. Meet people. Get paid.</p>
+        </div>
       </div>
-
-      {/* 🟢 AVAILABLE NOW Toggle Button */}
-      <button
-        onClick={toggleAvailable}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          padding: '10px 18px',
-          borderRadius: 999,
-          border: isAvailable ? '1px solid oklch(0.78 0.07 150 / 0.3)' : '1px solid var(--border)',
-          background: isAvailable ? 'oklch(0.78 0.07 150 / 0.12)' : 'var(--card)',
-          color: isAvailable ? 'oklch(0.45 0.07 150)' : 'var(--muted-foreground)',
-          fontSize: 14,
-          fontWeight: 650,
-          cursor: 'pointer',
-          boxShadow: isAvailable ? '0 0 20px oklch(0.78 0.07 150 / 0.15)' : 'none',
-          transition: 'all 0.25s ease',
-        }}
-      >
-        <span
-          style={{
-            width: 10,
-            height: 10,
-            borderRadius: '50%',
-            background: isAvailable ? 'oklch(0.45 0.07 150)' : 'var(--destructive)',
-            boxShadow: isAvailable ? '0 0 10px oklch(0.45 0.07 150)' : 'none',
-          }}
-        />
-        <span>{isAvailable ? 'AVAILABLE NOW' : 'OFFLINE'}</span>
-        <Power size={15} style={{ opacity: 0.7 }} />
-      </button>
+      <StatusToggle />
     </div>
   )
 }
@@ -67,11 +35,11 @@ function SubNavBar() {
   const pathname = usePathname()
 
   const tabs = [
-    { label: 'Dashboard', href: '/app/earn', icon: LayoutDashboard },
-    { label: 'Listings', href: '/app/earn/listings', icon: Layers },
-    { label: 'Marketplace Feed', href: '/app/earn/marketplace', icon: Store, badge: 'Fixed Price' },
-    { label: 'Applications', href: '/app/earn/applications', icon: FileCheck2 },
-    { label: 'Bookings', href: '/app/earn/bookings', icon: CalendarCheck },
+    { label: 'Home', href: '/app/earn', icon: LayoutDashboard },
+    { label: 'My offers', href: '/app/earn/listings', icon: Layers },
+    { label: 'People looking', href: '/app/earn/marketplace', icon: Store },
+    { label: 'My requests', href: '/app/earn/applications', icon: FileCheck2 },
+    { label: 'My plans', href: '/app/earn/bookings', icon: CalendarCheck },
   ]
 
   return (
@@ -107,18 +75,7 @@ function SubNavBar() {
             >
               <Icon size={17} style={{ color: isActive ? 'var(--foreground)' : 'inherit' }} />
               <span>{tab.label}</span>
-              {tab.badge && (
-                <span
-                  className="app-badge app-badge-accent"
-                  style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    padding: '2px 8px',
-                  }}
-                >
-                  {tab.badge}
-                </span>
-              )}
+
               {isActive && (
                 <motion.div
                   layoutId="earn-nav-indicator"

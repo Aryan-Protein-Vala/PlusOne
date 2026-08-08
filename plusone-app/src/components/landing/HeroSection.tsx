@@ -217,7 +217,7 @@ export default function HeroSection() {
                 <Link href="/hosts">
                   <Button variant="secondary" size="lg" className="flex-1 sm:flex-none">
                     <Plus size={16} />
-                    Become a Host
+                    Earn money
                   </Button>
                 </Link>
               </div>

@@ -78,7 +78,7 @@ export default function CTASection() {
             <Link href="/hosts">
               <Button variant="secondary" size="xl" className="px-10">
                 <Plus size={20} />
-                Become a Host
+                Earn money
               </Button>
             </Link>
           </div>

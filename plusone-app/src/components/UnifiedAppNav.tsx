@@ -116,7 +116,7 @@ export default function UnifiedAppNav() {
           onClick={() => setCreateOpen(true)}
           className="mt-auto w-full flex items-center justify-center gap-2 py-4 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold shadow-lg hover:-translate-y-1 transition-transform"
         >
-          <Plus size={20} /> Create Plan
+          <Plus size={20} /> Create
         </button>
       </nav>
 
@@ -140,8 +140,9 @@ export default function UnifiedAppNav() {
             >
               <div className="flex items-center justify-between p-6 border-b border-[var(--border)] bg-[var(--card)]">
                 <div>
-                  <h2 className="text-xl font-semibold m-0">What do you want to do?</h2>
-                  <p className="text-xs text-[var(--muted-foreground)] m-0 mt-1">Nearby hosts will apply to join you.</p>
+                  <h2 className="text-xl font-semibold m-0">Find someone</h2>
+                  <p className="text-xs text-[var(--muted-foreground)] m-0 mt-1">Post a plan and let someone join you.</p>
+                  <Link href="/app/earn" onClick={() => setCreateOpen(false)} className="text-xs text-[var(--primary)] no-underline inline-block mt-2">Want to earn instead? → Earn money</Link>
                 </div>
                 <button onClick={() => setCreateOpen(false)} className="w-8 h-8 grid place-items-center rounded-full bg-[var(--muted)] text-[var(--foreground)] border-none cursor-pointer">
                   <X size={16} />
@@ -171,7 +172,7 @@ export default function UnifiedAppNav() {
                       <input type="time" name="time" required className="app-input w-full" />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Budget (₹)</label>
+                      <label className="block text-xs font-medium text-[var(--foreground)] mb-1">What are you offering? (₹)</label>
                       <input type="number" name="budget" required placeholder="800" className="app-input w-full" />
                     </div>
                   </div>

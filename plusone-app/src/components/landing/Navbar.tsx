@@ -26,7 +26,7 @@ import {
 
 const navLinks = [
   { label: "Find PlusOne", href: "/#find" },
-  { label: "Become a Host", href: "/hosts" },
+  { label: "Earn money", href: "/hosts" },
   { label: "How It Works", href: "/#how" },
   { label: "Safety", href: "/safety" },
 ];

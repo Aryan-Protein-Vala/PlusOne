@@ -70,6 +70,14 @@ export async function applyToPlan(planId: string, proposedRate: number, message:
   return { success: true }
 }
 
+export async function getAvailability(): Promise<'free_now' | 'available_today' | 'busy' | 'offline'> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'offline'
+  const { data } = await supabase.from('profiles').select('availability_status').eq('id', user.id).maybeSingle()
+  return (data?.availability_status || 'offline') as 'free_now' | 'available_today' | 'busy' | 'offline'
+}
+
 export async function updateAvailability(status: 'free_now' | 'available_today' | 'busy' | 'offline') {
   const supabase = await createClient()
   
