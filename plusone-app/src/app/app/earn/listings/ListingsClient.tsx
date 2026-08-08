@@ -29,7 +29,7 @@ export default function ListingsClient({ listings: initialListings, initialError
 
   return <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, alignItems: 'center', marginBottom: 24 }}>
-      <div><h2 style={{ margin: '0 0 5px', fontSize: 24, fontWeight: 650 }}>Apna scene</h2><p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 14 }}>What are you suspiciously good company for? Let people hire you and earn cold hard cash.</p></div>
+      <div><h2 style={{ margin: '0 0 5px', fontSize: 24, fontWeight: 650 }}>Your offers</h2><p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 14 }}>What are you suspiciously good company for?</p></div>
       <button className="app-btn app-btn-primary" onClick={() => setCreating((open) => !open)}><Plus size={16} /> Create offer</button>
     </div>
     {message && <p style={{ color: 'var(--primary)', fontSize: 13, marginBottom: 16 }}>{message}</p>}
@@ -41,7 +41,7 @@ export default function ListingsClient({ listings: initialListings, initialError
       <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 12 }}>PlusOne is for lawful activities and good company — not sexual services, scams, or anything involving minors.</p>
       <button className="app-btn app-btn-primary" type="submit">Publish offer</button>
     </form>}
-    {listings.length === 0 ? <div className="app-card" style={{ padding: 28, color: 'var(--muted-foreground)' }}>Abhi tak koi scene nahi banaya? Put yourself on the menu and start earning hefty cash.</div> : <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
+    {listings.length === 0 ? <div className="app-card" style={{ padding: 28, color: 'var(--muted-foreground)' }}>You have no offers yet. Put yourself on the menu and start earning.</div> : <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
       {listings.map((listing) => <article key={listing.id} className="app-card" style={{ padding: 20 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 10, marginBottom: 14 }}><span className="app-badge app-badge-primary">{listing.category}</span><span className="app-badge">{listing.status}</span></div>
         <h3 style={{ margin: '0 0 8px', fontSize: 18 }}>{listing.title}</h3><p style={{ color: 'var(--muted-foreground)', fontSize: 13, lineHeight: 1.5, minHeight: 42 }}>{listing.description}</p>
