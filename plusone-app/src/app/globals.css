@@ -587,8 +587,15 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
 
   /* App pages responsive */
   .app-container, .app-container-narrow, .app-container-mid {
-    width: min(100% - 34px, 560px);
-    padding-top: 80px;
+    width: min(100% - 32px, 560px) !important;
+    margin-inline: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 24px !important;
+  }
+  .app-card, .app-card-flat {
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
   .page-header h1 { font-size: clamp(28px, 8vw, 42px); }
   .app-tabs { overflow-x: auto; }

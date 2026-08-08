@@ -192,7 +192,7 @@ function SubNavBar() {
 
 function EarnLayoutInner({ children }: { children: React.ReactNode }) {
   return (
-    <div className="app-container" style={{ maxWidth: 960 }}>
+    <div className="app-container" style={{ maxWidth: 960, margin: '0 auto', padding: '40px 24px' }}>
       <HeaderSection />
       <SubNavBar />
       <div>{children}</div>
