@@ -144,7 +144,7 @@ export default function ExplorePage({ listings }: { listings: Listing[] }) {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
             {listings.map((listing) => (
-              <Link key={listing.id} href={`/providers/${listing.host_id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link key={listing.id} href={`/listings/${listing.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <article className="app-card" style={{ padding: 20, height: '100%', transition: 'transform .2s ease' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginBottom: 14 }}>
                     <span className="app-badge app-badge-primary">{listing.category}</span>
