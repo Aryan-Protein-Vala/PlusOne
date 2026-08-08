@@ -12,7 +12,7 @@ export default function HelpPage() {
     { q: "What is the cancellation policy?", a: "Cancelling more than 48 hours before: full refund. 24–48 hours: 50% refund. Less than 24 hours: no refund. See our full Refund Policy for details." },
     { q: "Is PlusOne safe?", a: "We've built safety into every feature: identity verification, in-app payments, live location sharing, emergency SOS, chat moderation, reporting tools, and 24/7 support. See our Safety Center for everything we do." },
     { q: "How do I report a user?", a: "You can report any user from their profile page or from within an active chat. Reports go directly to our Trust & Safety team for immediate review. We review all reports and take appropriate action." },
-    { q: "Can I become a host?", a: "Yes! Anyone 18+ can apply to become a host. You'll need to complete identity verification. Once approved, you can set your hourly rate, list your activities, and start earning. Visit /hosts to apply." },
+    { q: "Can I become a host?", a: "Yes! Anyone 18+ can apply to become a host. You'll need to complete identity verification. Once approved, you can set your hourly rate, list your activities, and start earning. Visit Earn money in the app to get started." },
     { q: "What activities are allowed?", a: "Allowed: movies, coffee, study, travel, sports, shopping, photography, museums, gaming, cooking, language exchange, board games, dog walking, city exploration, concerts, and more. Not allowed: sexual services, escorting, illegal activities, harassment, hate speech, or anything involving minors." },
   ];
 

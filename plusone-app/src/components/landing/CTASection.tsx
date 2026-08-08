@@ -75,7 +75,7 @@ export default function CTASection() {
                 <ArrowRight size={18} />
               </Button>
             </Link>
-            <Link href="/hosts">
+            <Link href="/app/earn">
               <Button variant="secondary" size="xl" className="px-10">
                 <Plus size={20} />
                 Earn money

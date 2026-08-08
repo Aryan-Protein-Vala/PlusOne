@@ -29,16 +29,23 @@ export default function UnifiedAppNav() {
   const pathname = usePathname()
   const [createOpen, setCreateOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [createError, setCreateError] = useState('')
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSubmitting(true)
+    setCreateError('')
     try {
       const formData = new FormData(e.currentTarget)
-      await createPlan(formData)
-      setCreateOpen(false)
-    } catch (err) {
-      console.error(err)
+      const result = await createPlan(formData)
+      if ('error' in result) {
+        setCreateError(result.error || 'Could not post your plan.')
+      } else {
+        setCreateOpen(false)
+        e.currentTarget.reset()
+      }
+    } catch {
+      setCreateError('Could not post your plan. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -182,6 +189,7 @@ export default function UnifiedAppNav() {
                     <textarea name="description" placeholder="Looking for someone who enjoys sci-fi..." className="app-input w-full min-h-[80px] resize-y" />
                   </div>
 
+                  {createError && <p className="text-xs text-red-600 m-0" role="alert">{createError}</p>}
                   <button type="submit" disabled={submitting} className="app-btn app-btn-primary mt-2">
                     {submitting ? 'Posting...' : 'Post Plan'}
                   </button>

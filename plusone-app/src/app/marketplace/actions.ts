@@ -276,8 +276,10 @@ export async function acceptPlanApplication(applicationId: string): Promise<Acti
   const endsAt = new Date(startsAt.getTime() + 60 * 60 * 1000)
   const amount = Number(application.proposed_rate || plan.budget)
   const platformFee = Math.round(amount * 0.15 * 100) / 100
-  const { error: bookingError } = await supabase.from('bookings').insert({ plan_id: plan.id, customer_id: user.id, host_id: application.applicant_id, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), location: plan.location, amount, currency: 'INR', platform_fee: platformFee, provider_payout: amount - platformFee, status: 'accepted', payment_status: 'unpaid' })
-  if (bookingError) return { error: bookingError.message }
+  const { data: booking, error: bookingError } = await supabase.from('bookings').insert({ plan_id: plan.id, customer_id: user.id, host_id: application.applicant_id, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), location: plan.location, amount, currency: 'INR', platform_fee: platformFee, provider_payout: amount - platformFee, status: 'accepted', payment_status: 'unpaid' }).select('id').single()
+  if (bookingError || !booking) return { error: bookingError?.message || 'Could not create the booking.' }
+  const { error: conversationError } = await supabase.from('conversations').insert({ booking_id: booking.id })
+  if (conversationError) return { error: conversationError.message }
   const { error: updateError } = await supabase.from('plan_applications').update({ status: 'accepted' }).eq('id', applicationId)
   if (updateError) return { error: updateError.message }
   await supabase.from('plans').update({ status: 'matched' }).eq('id', plan.id).eq('creator_id', user.id)

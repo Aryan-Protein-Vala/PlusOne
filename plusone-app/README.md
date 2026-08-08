@@ -20,6 +20,7 @@ Run the migrations in order in Supabase SQL Editor:
 2. `supabase/migrations/00002_fix_trigger.sql`
 3. `supabase/migrations/00003_marketplace_foundation.sql`
 4. `supabase/migrations/00004_india_launch_constraints.sql`
+5. `supabase/migrations/00005_booking_integrity.sql`
 
 The fourth migration configures the initial launch for India and INR. The schema retains country, timezone, and currency fields so international expansion can be enabled later without redesigning the marketplace.
 

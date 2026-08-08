@@ -72,7 +72,7 @@ export default function AppNav() {
 
       <div className="nav-actions">
         <Link
-          href="/app/dashboard"
+          href="/app/explore"
           style={{
             display: 'inline-grid',
             placeItems: 'center',

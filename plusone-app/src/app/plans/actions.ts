@@ -67,7 +67,7 @@ export async function applyToPlan(planId: string, proposedRate: number, message:
     return { error: error.message }
   }
 
-  revalidatePath('/hosts/dashboard')
+  revalidatePath('/app/earn')
   return { success: true }
 }
 
@@ -94,6 +94,6 @@ export async function updateAvailability(status: 'free_now' | 'available_today' 
     return { error: error.message }
   }
 
-  revalidatePath('/hosts/dashboard')
+  revalidatePath('/app/earn')
   return { success: true }
 }

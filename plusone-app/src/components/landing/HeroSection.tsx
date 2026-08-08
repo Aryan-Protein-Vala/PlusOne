@@ -214,7 +214,7 @@ export default function HeroSection() {
                   Find My PlusOne
                   <ArrowRight size={16} />
                 </Button>
-                <Link href="/hosts">
+                <Link href="/app/earn">
                   <Button variant="secondary" size="lg" className="flex-1 sm:flex-none">
                     <Plus size={16} />
                     Earn money

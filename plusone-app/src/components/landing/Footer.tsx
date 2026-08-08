@@ -22,14 +22,14 @@ import { motion } from "framer-motion";
 const footerLinks = {
   platform: [
     { label: "Find a PlusOne", href: "/#find" },
-    { label: "Earn money", href: "/hosts" },
+    { label: "Earn money", href: "/app/earn" },
     { label: "How It Works", href: "/#how" },
     { label: "Safety Center", href: "/safety" },
     { label: "Community Guidelines", href: "/community-guidelines" },
     { label: "Top Earners", href: "/leaderboard" },
   ],
   for_earners: [
-    { label: "Earn money", href: "/dashboard" },
+    { label: "Earn money", href: "/app/earn" },
     { label: "Earnings & Payouts", href: "/wallet" },
     { label: "Pricing Guide", href: "/host-pricing" },
     { label: "Earning resources", href: "/host-resources" },

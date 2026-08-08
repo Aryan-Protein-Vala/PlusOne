@@ -71,7 +71,7 @@ export default function VerifyPage() {
             <p style={{ margin: '14px 0 36px', color: 'var(--muted-foreground)', fontSize: 15, lineHeight: 1.6 }}>
               Your account is verified. Time to find your people.
             </p>
-            <Link href="/app/dashboard" className="app-btn app-btn-primary" style={{ display: 'inline-flex' }}>
+            <Link href="/app/explore" className="app-btn app-btn-primary" style={{ display: 'inline-flex' }}>
               Go to dashboard <ArrowRight size={15} />
             </Link>
           </motion.div>
