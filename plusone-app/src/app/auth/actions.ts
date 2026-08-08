@@ -25,7 +25,7 @@ export async function login(formData: FormData) {
     .maybeSingle()
 
   revalidatePath('/', 'layout')
-  redirect(profile?.role === 'admin' ? '/admin' : '/app/explore')
+  return { success: true, redirectTo: profile?.role === 'admin' ? '/admin' : '/app/explore' }
 }
 
 export async function signup(formData: FormData) {
@@ -59,7 +59,7 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath('/', 'layout')
-  redirect('/app/explore')
+  return { success: true, redirectTo: '/app/explore' }
 }
 
 export async function logout() {

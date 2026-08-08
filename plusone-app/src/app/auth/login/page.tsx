@@ -31,10 +31,14 @@ export default function LoginPage() {
       const res = await login(formData)
       if (res?.error) {
         setError(res.error)
+        setLoading(false)
+      } else if (res?.redirectTo) {
+        window.location.href = res.redirectTo
+      } else {
+        setLoading(false)
       }
     } catch (err) {
       setError("An unexpected error occurred.")
-    } finally {
       setLoading(false)
     }
   }

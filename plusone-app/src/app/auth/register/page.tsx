@@ -62,11 +62,15 @@ export default function RegisterPage() {
       if (res?.error) {
         setError(res.error)
         setStep(1) // Go back so they can fix things if needed
+        setLoading(false)
+      } else if (res?.redirectTo) {
+        window.location.href = res.redirectTo
+      } else {
+        setLoading(false)
       }
     } catch (err) {
       setError("An unexpected error occurred.")
       setStep(1)
-    } finally {
       setLoading(false)
     }
   }
