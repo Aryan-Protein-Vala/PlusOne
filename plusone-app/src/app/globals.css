@@ -110,17 +110,50 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
 /* ─── Legal Pages Shell ──────────────────────────────────────────────────── */
 
 /*
-  All legal pages use dark Tailwind classes (text-white, bg-surface-999 etc).
-  .legal-shell gives them a rich, site-branded dark background so those classes
-  render properly and feel premium — no need to rewrite 38 individual pages.
+  The legal pages were originally coded with dark Tailwind utility classes.
+  The user wants them to match the site's light cream theme.
+  We override the dark classes within .legal-shell to match the light theme.
 */
 .legal-shell {
   min-height: 100vh;
-  background: oklch(0.11 0.03 265);
-  color: oklch(0.92 0.01 265);
+  background: var(--background);
+  color: var(--foreground);
   display: flex;
   flex-direction: column;
 }
+
+/* Force text colors to match light theme */
+.legal-shell .text-white { color: var(--foreground) !important; }
+.legal-shell .text-white\/40,
+.legal-shell .text-white\/50,
+.legal-shell .text-white\/60,
+.legal-shell .text-white\/30,
+.legal-shell .text-white\/20 { color: var(--muted-foreground) !important; }
+
+/* Force backgrounds to light theme */
+.legal-shell .bg-surface-999,
+.legal-shell .bg-surface-999\/90 { background: transparent !important; }
+.legal-shell .bg-surface-900\/50,
+.legal-shell .bg-white\/\[0\.02\] { background: var(--card) !important; }
+
+/* Force borders to light theme */
+.legal-shell .border-white\/5 { border-color: var(--border) !important; }
+
+/* Purples to light theme primary */
+.legal-shell .text-plus-purple-300,
+.legal-shell .text-plus-purple-200 { color: var(--primary) !important; }
+.legal-shell .bg-plus-purple-500\/10,
+.legal-shell .bg-plus-purple-500\/20,
+.legal-shell .bg-plus-purple-500\/5 { background: color-mix(in oklch, var(--primary) 10%, transparent) !important; }
+.legal-shell .border-plus-purple-500\/20,
+.legal-shell .border-plus-purple-500\/10 { border-color: color-mix(in oklch, var(--primary) 20%, transparent) !important; }
+
+/* Amber to light theme */
+.legal-shell .text-amber-300,
+.legal-shell .text-amber-200\/70 { color: oklch(0.65 0.15 45) !important; }
+.legal-shell .bg-amber-500\/5 { background: oklch(0.95 0.05 45) !important; }
+.legal-shell .border-amber-500\/10 { border-color: oklch(0.90 0.08 45) !important; }
+
 .legal-nav {
   position: sticky;
   top: 0;
@@ -130,9 +163,9 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
   justify-content: space-between;
   padding: 0 clamp(20px, 5vw, 64px);
   height: 52px;
-  background: oklch(0.11 0.03 265 / 0.85);
+  background: color-mix(in oklch, var(--background) 85%, transparent);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid oklch(1 0 0 / 0.07);
+  border-bottom: 1px solid var(--border);
 }
 .legal-brand {
   display: flex;
@@ -140,23 +173,23 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
   gap: 8px;
   font-size: 14px;
   font-weight: 600;
-  color: oklch(0.92 0.01 265);
+  color: var(--foreground);
   text-decoration: none;
   letter-spacing: -0.03em;
   transition: color 0.15s;
 }
-.legal-brand:hover { color: oklch(0.78 0.07 150); }
-.legal-brand svg { color: oklch(0.78 0.07 300); }
+.legal-brand:hover { color: var(--primary); }
+.legal-brand svg { color: var(--primary); }
 .legal-home-link {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   font-size: 12px;
-  color: oklch(0.65 0.02 265);
+  color: var(--muted-foreground);
   text-decoration: none;
   transition: color 0.15s;
 }
-.legal-home-link:hover { color: oklch(0.92 0.01 265); }
+.legal-home-link:hover { color: var(--foreground); }
 .legal-content { flex: 1; }
 .legal-footer {
   display: flex;
@@ -164,8 +197,8 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
   align-items: center;
   gap: 6px;
   padding: 28px 24px;
-  border-top: 1px solid oklch(1 0 0 / 0.07);
-  color: oklch(0.4 0.02 265);
+  border-top: 1px solid var(--border);
+  color: var(--muted-foreground);
   font-size: 10px;
   font-family: var(--font-geist-mono), monospace;
   text-align: center;
