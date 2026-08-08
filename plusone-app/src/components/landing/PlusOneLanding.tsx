@@ -206,23 +206,30 @@ function ReviewCarousel() {
       className="section-wrap quote-section"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      style={{ minHeight: 360, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
+      style={{ minHeight: 380, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'default' }}
     >
       <Reveal>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div className="quote-mark" style={{ marginBottom: 8 }}>&ldquo;</div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+          <div className="quote-mark" style={{ marginBottom: 12 }}>&ldquo;</div>
           
-          <div style={{ position: 'relative', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 840 }}>
+          {/* Normal flow container with minHeight so text never squeezes and controls stay 100% stationary */}
+          <div style={{ minHeight: 200, width: '100%', maxWidth: 760, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                }}
               >
-                <blockquote style={{ margin: '0 auto 24px', minHeight: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <blockquote style={{ margin: '0 auto 20px', minHeight: 110, display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 760 }}>
                   {current.quote}
                 </blockquote>
                 <div className="quote-credit">
@@ -235,8 +242,8 @@ function ReviewCarousel() {
             </AnimatePresence>
           </div>
 
-          {/* Stationary controls */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 32 }}>
+          {/* Locked controls position */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 24 }}>
             <button
               type="button"
               onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
