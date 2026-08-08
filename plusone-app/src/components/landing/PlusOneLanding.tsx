@@ -10,6 +10,8 @@ import {
   CalendarDays,
   Check,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Compass,
   ExternalLink,
   Heart,
@@ -152,6 +154,146 @@ function Nav({ isLoggedIn }: { isLoggedIn: boolean }) {
   )
 }
 
+const bakchodReviews = [
+  {
+    quote: "Bhai, last month study sessions aur street food tours host karke ₹45,000 kama liye. PlusOne is literal cheat code for pocket money, no cap!",
+    initials: "RM",
+    name: "Rohan Malhotra",
+    meta: "Earned ₹45k · PlusOne in Delhi NCR",
+  },
+  {
+    quote: "Group chat waalon ne firse ghost kar diya movie ke liye. Posted on PlusOne, 10 mins me chilling buddy mil gayi! Best app ever BC 🔥",
+    initials: "AV",
+    name: "Ananya Verma",
+    meta: "Found PlusOne in 10 mins · Bangalore",
+  },
+  {
+    quote: "Weekend pe akela bore ho raha tha. Hosted a gaming & chai session, ₹1,200 bhi ban gaye aur solid dost bhi mil gaye!",
+    initials: "AP",
+    name: "Aarav Patel",
+    meta: "Earned ₹1,200/day · PlusOne in Mumbai",
+  },
+  {
+    quote: "Concert jaana tha but single ticket pe weird lagta. Found a companion on PlusOne within 1 hour. Vibe matching top tier thi 💯",
+    initials: "PS",
+    name: "Priya Sharma",
+    meta: "Went to Concert · Pune",
+  },
+  {
+    quote: "Coding grindset chal raha tha, needed a study partner. PlusOne pe mast companion mila, plus pocket money sorted!",
+    initials: "VK",
+    name: "Vikram Kapoor",
+    meta: "Earned ₹28k/month · Hyderabad",
+  },
+]
+
+function ReviewCarousel() {
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % bakchodReviews.length)
+    }, 2500) // Fast state rotation (2.5s)
+    return () => clearInterval(timer)
+  }, [])
+
+  const current = bakchodReviews[index]
+
+  return (
+    <section className="section-wrap quote-section" style={{ minHeight: 360, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <Reveal>
+        <div className="quote-mark" style={{ marginBottom: 8 }}>&ldquo;</div>
+        
+        <div style={{ position: 'relative', minHeight: 180, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 840 }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+            >
+              <blockquote style={{ margin: '0 auto 24px', minHeight: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {current.quote}
+              </blockquote>
+              <div className="quote-credit">
+                <span className="credit-avatar">{current.initials}</span>
+                <span>
+                  {current.name} <small>{current.meta}</small>
+                </span>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Fast switching carousel controls */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, marginTop: 36 }}>
+          <button
+            type="button"
+            onClick={() => setIndex((prev) => (prev - 1 + bakchodReviews.length) % bakchodReviews.length)}
+            aria-label="Previous review"
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: '50%',
+              width: 34,
+              height: 34,
+              display: 'grid',
+              placeItems: 'center',
+              color: 'var(--muted-foreground)',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <ChevronLeft size={16} />
+          </button>
+
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {bakchodReviews.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Go to review ${i + 1}`}
+                style={{
+                  width: i === index ? 24 : 8,
+                  height: 8,
+                  borderRadius: 99,
+                  background: i === index ? 'var(--primary)' : 'var(--border)',
+                  border: 0,
+                  cursor: 'pointer',
+                  transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+                }}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIndex((prev) => (prev + 1) % bakchodReviews.length)}
+            aria-label="Next review"
+            style={{
+              background: 'transparent',
+              border: '1px solid var(--border)',
+              borderRadius: '50%',
+              width: 34,
+              height: 34,
+              display: 'grid',
+              placeItems: 'center',
+              color: 'var(--muted-foreground)',
+              cursor: 'pointer',
+              transition: 'all 0.15s ease',
+            }}
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </Reveal>
+    </section>
+  )
+}
+
 export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [notice, setNotice] = useState('')
   const { scrollY } = useScroll()
@@ -191,7 +333,7 @@ export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: bo
 
       <section className="section-wrap stats-section" aria-label="Why PlusOne works"><Reveal><article className="stat"><div className="stat-topline"><span className="stat-index">01</span><span className="stat-dot" /></div><strong>48%</strong><p>of people say making new friends is harder than it used to be.</p><span className="stat-note">The gap is real.</span></article></Reveal><Reveal delay={0.12}><article className="stat"><div className="stat-topline"><span className="stat-index">02</span><span className="stat-dot" /></div><strong>3×</strong><p>more likely to keep a plan when someone else is counting on you.</p><span className="stat-note">A little accountability helps.</span></article></Reveal><Reveal delay={0.24}><article className="stat"><div className="stat-topline"><span className="stat-index">03</span><span className="stat-dot" /></div><strong>100%</strong><p>better when you stop waiting for the perfect moment.</p><span className="stat-note">Start with a maybe.</span></article></Reveal></section>
 
-      <section className="section-wrap quote-section"><Reveal><div className="quote-mark">&ldquo;</div><blockquote>Bhai, last month study sessions aur coffee dates host karke ₹45,000 kama liye. PlusOne is the ultimate side hustle, literally pocket money sorted!</blockquote><div className="quote-credit"><span className="credit-avatar">JM</span><span>Jamie M. <small>Earned ₹45k · PlusOne in Mumbai</small></span></div></Reveal></section>
+      <ReviewCarousel />
 
       <section id="cta" className="section-wrap cta-section"><div className="cta-orbit" /><Reveal><div className="status-pill"><span className="status-dot" /> Coming soon to your city</div><h2>Stop being lonely.<br /><em>Secure your spot.</em></h2><p>Get early access to verified companions and hefty hosting side-hustles in your city.</p>
         {isLoggedIn ? (
