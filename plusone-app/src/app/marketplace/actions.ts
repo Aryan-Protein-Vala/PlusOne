@@ -12,6 +12,27 @@ async function currentUser() {
   const supabase = await createClient()
   const { data, error } = await supabase.auth.getUser()
   if (error || !data.user) return { supabase, user: null }
+
+  // Auto-repair profile if it is missing
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('id', data.user.id)
+    .maybeSingle()
+
+  if (!profile && !profileError) {
+    const email = data.user.email || ''
+    const fullName = data.user.user_metadata?.full_name || email.split('@')[0] || 'User'
+    await supabase.from('profiles').insert({
+      id: data.user.id,
+      email,
+      name: fullName,
+      role: 'host', // Marked as host to allow listing creation
+      country_code: 'IN',
+      preferred_currency: 'INR',
+    })
+  }
+
   return { supabase, user: data.user }
 }
 
