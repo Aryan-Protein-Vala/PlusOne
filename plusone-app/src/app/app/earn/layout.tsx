@@ -21,7 +21,7 @@ function HeaderSection() {
     <div style={{ marginBottom: 24 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 18 }}>
         <div>
-          <h1 style={{ fontSize: 'clamp(26px, 4vw, 34px)', fontWeight: 700, margin: '0 0 6px', letterSpacing: '-0.03em' }}>Host &amp; cash out.</h1>
+          <h1 style={{ fontSize: 'clamp(26px, 4vw, 34px)', fontWeight: 700, margin: '0 0 6px', letterSpacing: '-0.03em' }}>Hang out &amp; cash out.</h1>
           <p style={{ margin: 0, color: 'var(--muted-foreground)', fontSize: 15 }}>Get paid to hang out, study, or grab coffee. Pocket money sorted, zero corporate BS.</p>
         </div>
       </div>
