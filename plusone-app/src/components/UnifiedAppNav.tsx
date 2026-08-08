@@ -69,7 +69,11 @@ export default function UnifiedAppNav() {
               )
             }
             
-            const isActive = pathname.startsWith(item.href)
+            const isActive = item.href === '/app/chats'
+              ? pathname.startsWith('/app/chats') || pathname.startsWith('/app/messages')
+              : item.href === '/app/me'
+              ? pathname === '/app/me' || pathname.startsWith('/app/me/')
+              : (pathname === item.href || pathname.startsWith(item.href + '/'))
             const Icon = item.icon!
             return (
               <Link
@@ -100,7 +104,11 @@ export default function UnifiedAppNav() {
         <div className="flex flex-col gap-2 flex-1">
           {navItems.map((item) => {
             if (item.isCreate) return null
-            const isActive = pathname.startsWith(item.href)
+            const isActive = item.href === '/app/chats'
+              ? pathname.startsWith('/app/chats') || pathname.startsWith('/app/messages')
+              : item.href === '/app/me'
+              ? pathname === '/app/me' || pathname.startsWith('/app/me/')
+              : (pathname === item.href || pathname.startsWith(item.href + '/'))
             const Icon = item.icon!
             return (
               <Link

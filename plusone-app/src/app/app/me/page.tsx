@@ -4,4 +4,43 @@ import { logout } from '@/app/auth/actions'
 
 export const dynamic = 'force-dynamic'
 
-export default async function MePage(){const s=await createClient();const{data:{user}}=await s.auth.getUser();const{data:profile}=user?await s.from('profiles').select('name,email,phone,city,country_code,bio,avatar_url,is_verified,trust_score,availability_status').eq('id',user.id).maybeSingle():{data:null};return <div><div style={{marginBottom:28}}><h1 style={{margin:'0 0 6px',fontSize:32,fontWeight:650}}>{profile?.name||'Your profile'}</h1><p style={{margin:0,color:'var(--muted-foreground)'}}>Your PlusOne identity, editable whenever you want.</p></div><ProfileClient profile={profile||{email:user?.email}}/><div className="app-card" style={{padding:24,display:'grid',gap:14,marginTop:16}}><div><span className="text-xs">Email</span><strong style={{display:'block',marginTop:5}}>{profile?.email||user?.email}</strong></div><div><span className="text-xs">Verification</span><strong style={{display:'block',marginTop:5}}>{profile?.is_verified?'Verified':'Verification pending'}</strong></div><div><span className="text-xs">Trust score</span><strong style={{display:'block',marginTop:5}}>{profile?.trust_score||0}/100</strong></div><form action={logout} style={{marginTop:8}}><button className="app-btn app-btn-outline" type="submit">Log out</button></form></div></div>}
+export default async function MePage() {
+  const s = await createClient()
+  const { data: { user } } = await s.auth.getUser()
+  const { data: profile } = user
+    ? await s
+        .from('profiles')
+        .select('name,email,phone,city,country_code,bio,avatar_url,is_verified,trust_score,availability_status')
+        .eq('id', user.id)
+        .maybeSingle()
+    : { data: null }
+
+  return (
+    <div className="app-container" style={{ maxWidth: 1000, margin: '0 auto', padding: '40px 24px' }}>
+      <div style={{ marginBottom: 28 }}>
+        <h1 style={{ margin: '0 0 6px', fontSize: 32, fontWeight: 650 }}>{profile?.name || 'Your profile'}</h1>
+        <p style={{ margin: 0, color: 'var(--muted-foreground)' }}>Your PlusOne identity, editable whenever you want.</p>
+      </div>
+
+      <ProfileClient profile={profile || { email: user?.email }} />
+
+      <div className="app-card" style={{ padding: 24, display: 'grid', gap: 14, marginTop: 16 }}>
+        <div>
+          <span className="text-xs">Email</span>
+          <strong style={{ display: 'block', marginTop: 5 }}>{profile?.email || user?.email}</strong>
+        </div>
+        <div>
+          <span className="text-xs">Verification</span>
+          <strong style={{ display: 'block', marginTop: 5 }}>{profile?.is_verified ? 'Verified' : 'Verification pending'}</strong>
+        </div>
+        <div>
+          <span className="text-xs">Trust score</span>
+          <strong style={{ display: 'block', marginTop: 5 }}>{profile?.trust_score || 0}/100</strong>
+        </div>
+        <form action={logout} style={{ marginTop: 8 }}>
+          <button className="app-btn app-btn-outline" type="submit">Log out</button>
+        </form>
+      </div>
+    </div>
+  )
+}
