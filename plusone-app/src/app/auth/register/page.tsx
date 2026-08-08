@@ -133,7 +133,7 @@ export default function RegisterPage() {
               </div>
               <div>
                 <label className="app-label" htmlFor="phone"><Phone size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />Phone</label>
-                <input id="phone" name="phone" value={formDataState.phone} onChange={handleChange} className="app-input" type="tel" placeholder="+91 99999 99999" required />
+                <input id="phone" name="phone" value={formDataState.phone} onChange={handleChange} className="app-input" type="tel" placeholder="+91 98765 43210" required />
               </div>
               <div>
                 <label className="app-label" htmlFor="city"><MapPin size={12} style={{ display: 'inline', marginRight: 6, verticalAlign: 'middle' }} />City</label>
