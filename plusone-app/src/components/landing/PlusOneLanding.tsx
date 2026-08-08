@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import {
-  ArrowDown,
+  ArrowUp,
   ArrowRight,
   ArrowUpRight,
   CalendarDays,
@@ -388,7 +388,7 @@ export default function PlusOneLanding({ isLoggedIn = false }: { isLoggedIn?: bo
         <div className="footer-bottom">
           <span>© 2025 PlusOne Technologies Pvt. Ltd.</span>
           <span>Made with intention in India + everywhere</span>
-          <a href="#top">Back to top <ArrowDown size={14} className="rotate-180" /></a>
+          <a href="#top">Back to top <ArrowUp size={14} /></a>
         </div>
       </footer>
       <AnimatePresence>{notice && <motion.div className="toast" initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }}><Check size={16} /> {notice}</motion.div>}</AnimatePresence>

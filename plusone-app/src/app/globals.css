@@ -103,9 +103,73 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
 .intro-section { padding: 150px 0; }.section-kicker { display: flex; align-items: center; gap: 14px; color: var(--muted-foreground); font: 10px var(--font-geist-mono), monospace; letter-spacing: .05em; text-transform: uppercase; }.section-kicker span:first-child { color: var(--primary); }.intro-section h2, .split-section h2, .explore-section h2, .cta-section h2 { font-size: clamp(48px, 7vw, 88px); }.intro-copy { max-width: 500px; margin: 30px 0 0 auto; color: var(--muted-foreground); font-size: 17px; line-height: 1.65; }.rule-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 120px; }.rule-grid > div { padding-top: 18px; border-top: 1px solid var(--border); }.big-number { color: var(--primary); font: 11px var(--font-geist-mono), monospace; }.rule-grid h3 { margin: 32px 0 10px; font-size: 20px; font-weight: 500; letter-spacing: -.04em; }.rule-grid p, .section-copy > p { margin: 0; color: var(--muted-foreground); font-size: 13px; line-height: 1.7; }.split-section { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 100px; padding: 90px 0 160px; }.section-copy > p { max-width: 380px; margin-top: 28px; font-size: 16px; }.host-art { min-height: 470px; display: grid; place-items: center; }.grid-paper { position: relative; width: min(100%, 500px); aspect-ratio: 1.05; padding: 28px; border: 1px solid color-mix(in oklch, var(--accent) 70%, var(--border)); background: var(--card); box-shadow: 18px 18px 0 color-mix(in oklch, var(--accent) 16%, transparent); transform: rotate(-4deg); }.grid-paper::before { position: absolute; inset: 0; content: ''; opacity: .4; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 28px 28px; }.paper-top, .paper-footer { position: relative; display: flex; justify-content: space-between; color: var(--muted-foreground); font: 9px var(--font-geist-mono), monospace; }.paper-title { position: relative; margin-top: 112px; font-size: 42px; line-height: .93; letter-spacing: -.08em; }.paper-title span { color: var(--primary); }.hand-line { position: absolute; height: 1px; background: var(--foreground); opacity: .35; transform-origin: left; }.line-a { width: 120px; top: 48%; left: 14%; transform: rotate(-18deg); }.line-b { width: 100px; top: 60%; right: 15%; transform: rotate(24deg); }.paper-stamp { position: absolute; right: 12%; bottom: 25%; display: flex; align-items: center; gap: 8px; color: var(--accent-foreground); font: 9px var(--font-geist-mono), monospace; text-transform: uppercase; transform: rotate(8deg); }.paper-stamp svg { color: var(--accent); }.paper-footer { position: absolute; right: 28px; bottom: 24px; left: 28px; }
 .explore-section { padding: 130px 0 170px; border-top: 1px solid var(--border); }.explore-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }.explore-heading p { max-width: 220px; margin-bottom: 10px; color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }.category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 32px; margin-top: 88px; }.category-grid button { display: flex; align-items: center; gap: 18px; padding: 21px 0; border: 0; border-bottom: 1px solid var(--border); background: transparent; color: var(--foreground); text-align: left; cursor: pointer; }.category-grid button:hover strong { color: var(--primary); }.category-grid button span { color: var(--muted-foreground); font: 10px var(--font-geist-mono), monospace; }.category-grid button strong { flex: 1; font-size: 18px; font-weight: 450; letter-spacing: -.04em; transition: color .2s; }.category-grid button svg { color: var(--muted-foreground); }
 .stats-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 54px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }.stat { min-height: 228px; display: flex; flex-direction: column; padding: 22px; border: 1px solid var(--border); border-radius: 18px; background: color-mix(in oklch, var(--card) 72%, transparent); }.stat-topline { display: flex; align-items: center; justify-content: space-between; color: var(--muted-foreground); font: 10px var(--font-geist-mono), monospace; }.stat-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }.stat strong { margin-top: 30px; color: var(--primary-foreground); font-size: clamp(48px, 6vw, 72px); font-weight: 520; letter-spacing: -.08em; }.stat p { max-width: 235px; margin: 8px 0 0; color: var(--muted-foreground); font-size: 12px; line-height: 1.6; }.stat-note { margin-top: auto; color: var(--foreground); font-size: 11px; }.quote-section { padding: 170px 0; text-align: center; }.quote-mark { color: var(--accent); font-size: 80px; line-height: .5; }.quote-section blockquote { max-width: 760px; margin: 32px auto; font-size: clamp(29px, 4.2vw, 52px); line-height: 1.05; letter-spacing: -.065em; }.quote-credit { display: inline-flex; align-items: center; gap: 10px; color: var(--foreground); font-size: 12px; text-align: left; }.quote-credit small { display: block; margin-top: 4px; color: var(--muted-foreground); font-size: 10px; }.credit-avatar { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--secondary); color: var(--secondary-foreground); font: 9px var(--font-geist-mono), monospace; }
-.cta-section { position: relative; display: flex; flex-direction: column; align-items: center; padding: 170px 0; border-top: 1px solid var(--border); text-align: center; overflow: hidden; }.cta-section h2 { position: relative; }.cta-section p { position: relative; max-width: 400px; margin: 28px auto; color: var(--muted-foreground); line-height: 1.6; font-size: 15px; }.cta-section .button { position: relative; }.cta-orbit { position: absolute; top: 30px; width: 680px; height: 320px; border: 1px solid color-mix(in oklch, var(--primary) 45%, transparent); border-radius: 50%; transform: rotate(-15deg); }.site-footer { padding: 36px 0 26px; border-top: 1px solid var(--border); }.footer-top { display: flex; align-items: flex-start; justify-content: space-between; min-height: 130px; }.footer-note { color: var(--muted-foreground); font-size: 12px; line-height: 1.5; text-align: right; }.footer-note span { color: var(--accent); }.footer-bottom { display: flex; justify-content: space-between; padding-top: 22px; border-top: 1px solid var(--border); color: var(--muted-foreground); font: 9px var(--font-geist-mono), monospace; }.footer-bottom a { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-foreground); text-decoration: none; }.rotate-180 { transform: rotate(180deg); }.toast { position: fixed; right: 24px; bottom: 24px; z-index: 70; display: flex; align-items: center; gap: 9px; padding: 13px 16px; border: 1px solid color-mix(in oklch, var(--accent) 60%, var(--border)); border-radius: 10px; background: var(--card); color: var(--foreground); box-shadow: 0 15px 40px color-mix(in oklch, var(--foreground) 15%, transparent); font-size: 12px; }.toast svg { color: var(--accent); }
+.cta-section { position: relative; display: flex; flex-direction: column; align-items: center; padding: 170px 0; border-top: 1px solid var(--border); text-align: center; overflow: hidden; }.cta-section h2 { position: relative; }.cta-section p { position: relative; max-width: 400px; margin: 28px auto; color: var(--muted-foreground); line-height: 1.6; font-size: 15px; }.cta-section .button { position: relative; }.cta-orbit { position: absolute; top: 30px; width: 680px; height: 320px; border: 1px solid color-mix(in oklch, var(--primary) 45%, transparent); border-radius: 50%; transform: rotate(-15deg); }.site-footer { padding: 36px 0 26px; border-top: 1px solid var(--border); }.footer-top { display: flex; align-items: flex-start; justify-content: space-between; min-height: 130px; }.footer-note { color: var(--muted-foreground); font-size: 12px; line-height: 1.5; text-align: right; }.footer-note span { color: var(--accent); }.footer-bottom { display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 22px; border-top: 1px solid var(--border); color: var(--muted-foreground); font: 9px var(--font-geist-mono), monospace; text-align: center; }.footer-bottom a { display: inline-flex; align-items: center; gap: 7px; color: var(--muted-foreground); text-decoration: none; transition: color 0.15s; }.footer-bottom a:hover { color: var(--foreground); }.toast { position: fixed; right: 24px; bottom: 24px; z-index: 70; display: flex; align-items: center; gap: 9px; padding: 13px 16px; border: 1px solid color-mix(in oklch, var(--accent) 60%, var(--border)); border-radius: 10px; background: var(--card); color: var(--foreground); box-shadow: 0 15px 40px color-mix(in oklch, var(--foreground) 15%, transparent); font-size: 12px; }.toast svg { color: var(--accent); }
 
 @keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ─── Legal Pages Shell ──────────────────────────────────────────────────── */
+
+/*
+  All legal pages use dark Tailwind classes (text-white, bg-surface-999 etc).
+  .legal-shell gives them a rich, site-branded dark background so those classes
+  render properly and feel premium — no need to rewrite 38 individual pages.
+*/
+.legal-shell {
+  min-height: 100vh;
+  background: oklch(0.11 0.03 265);
+  color: oklch(0.92 0.01 265);
+  display: flex;
+  flex-direction: column;
+}
+.legal-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 64px);
+  height: 52px;
+  background: oklch(0.11 0.03 265 / 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid oklch(1 0 0 / 0.07);
+}
+.legal-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: oklch(0.92 0.01 265);
+  text-decoration: none;
+  letter-spacing: -0.03em;
+  transition: color 0.15s;
+}
+.legal-brand:hover { color: oklch(0.78 0.07 150); }
+.legal-brand svg { color: oklch(0.78 0.07 300); }
+.legal-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: oklch(0.65 0.02 265);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.legal-home-link:hover { color: oklch(0.92 0.01 265); }
+.legal-content { flex: 1; }
+.legal-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px 24px;
+  border-top: 1px solid oklch(1 0 0 / 0.07);
+  color: oklch(0.4 0.02 265);
+  font-size: 10px;
+  font-family: var(--font-geist-mono), monospace;
+  text-align: center;
+}
 
 /* ─── App Page Styles ────────────────────────────────────────────────────── */
 
