@@ -260,3 +260,29 @@ export async function applyToPlanReal(planId: string, proposedRate: number, mess
   revalidatePath('/app/earn/applications')
   return { success: true }
 }
+
+export async function acceptPlanApplication(applicationId: string): Promise<ActionResult> {
+  const { supabase, user } = await currentUser()
+  if (!user) return { error: 'Please log in before accepting an application.' }
+  const { data: application, error: applicationError } = await supabase
+    .from('plan_applications')
+    .select('id, plan_id, applicant_id, proposed_rate, plans!inner(id, creator_id, location, start_time, budget, currency, status)')
+    .eq('id', applicationId)
+    .single()
+  if (applicationError || !application || (application.plans as any).creator_id !== user.id) return { error: 'You cannot accept this application.' }
+  const plan = application.plans as any
+  if (plan.status !== 'open') return { error: 'This plan is no longer open.' }
+  const startsAt = new Date(plan.start_time)
+  const endsAt = new Date(startsAt.getTime() + 60 * 60 * 1000)
+  const amount = Number(application.proposed_rate || plan.budget)
+  const platformFee = Math.round(amount * 0.15 * 100) / 100
+  const { error: bookingError } = await supabase.from('bookings').insert({ plan_id: plan.id, customer_id: user.id, host_id: application.applicant_id, starts_at: startsAt.toISOString(), ends_at: endsAt.toISOString(), location: plan.location, amount, currency: 'INR', platform_fee: platformFee, provider_payout: amount - platformFee, status: 'accepted', payment_status: 'unpaid' })
+  if (bookingError) return { error: bookingError.message }
+  const { error: updateError } = await supabase.from('plan_applications').update({ status: 'accepted' }).eq('id', applicationId)
+  if (updateError) return { error: updateError.message }
+  await supabase.from('plans').update({ status: 'matched' }).eq('id', plan.id).eq('creator_id', user.id)
+  revalidatePath('/app/earn/applications')
+  revalidatePath('/app/earn/bookings')
+  revalidatePath('/app/earn/marketplace')
+  return { success: true }
+}

@@ -44,7 +44,8 @@ export async function createPlan(formData: FormData) {
     return { error: error.message }
   }
 
-  revalidatePath('/app/dashboard')
+  revalidatePath('/app/explore')
+  revalidatePath('/app/earn/marketplace')
   return { success: true }
 }
 
