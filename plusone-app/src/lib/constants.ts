@@ -1,5 +1,14 @@
 export const PLATFORM_NAME = "PlusOne";
 export const PLATFORM_TAGLINE = "Find someone for any plan.";
+
+// Initial launch market. The backend enforces this through migration 00004.
+// Keep this in one place so the first release can expand cleanly later.
+export const LAUNCH_MARKET = {
+  countryCode: "IN",
+  countryName: "India",
+  currency: "INR",
+  currencySymbol: "₹",
+} as const;
 export const PLATFORM_URL = "https://plusone.app";
 
 export const VERIFICATION_BADGES = {
@@ -110,9 +119,6 @@ export const REFUND_POLICY = {
   seekerNoShow: { refund: "No refund + penalty on seeker" },
 };
 
-export const APPLE_SOCIAL_APP_ID = "YOUR_APPLE_APP_ID";
-export const GOOGLE_WEB_CLIENT_ID = "YOUR_GOOGLE_WEB_CLIENT_ID";
-export const RAZORPAY_KEY_ID = "YOUR_RAZORPAY_KEY_ID";
 
 export const SUPPORT_EMAIL = "hello@plusone.app";
 export const PRIVACY_EMAIL = "privacy@plusone.app";

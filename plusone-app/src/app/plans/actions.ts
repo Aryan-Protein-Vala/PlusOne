@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { containsProhibitedContent, PROHIBITED_CONTENT_MESSAGE } from '@/lib/content-moderation'
 
 export async function createPlan(formData: FormData) {
   const supabase = await createClient()
@@ -9,15 +10,24 @@ export async function createPlan(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Not logged in')
 
-  const activity = formData.get('activity') as string
-  const location = formData.get('location') as string
-  const budget = parseFloat(formData.get('budget') as string)
-  const description = formData.get('description') as string
+  const activity = String(formData.get('activity') || '').trim()
+  const location = String(formData.get('location') || '').trim()
+  const budget = parseFloat(String(formData.get('budget') || ''))
+  const description = String(formData.get('description') || '').trim()
+
+  if (!activity || !location || !Number.isFinite(budget) || budget <= 0) {
+    return { error: 'Please provide an activity, location, and a valid offer.' }
+  }
+  if (containsProhibitedContent(activity, location, description)) return { error: PROHIBITED_CONTENT_MESSAGE }
   
   // Combine date and time for start_time
-  const date = formData.get('date') as string
-  const time = formData.get('time') as string
-  const start_time = new Date(`${date}T${time}:00`).toISOString()
+  const date = String(formData.get('date') || '')
+  const time = String(formData.get('time') || '')
+  const startDate = new Date(`${date}T${time}:00+05:30`)
+  if (!date || !time || Number.isNaN(startDate.getTime()) || startDate.getTime() <= Date.now()) {
+    return { error: 'Please choose a valid future date and time in India.' }
+  }
+  const start_time = startDate.toISOString()
 
   const { error } = await supabase.from('plans').insert({
     creator_id: user.id,
@@ -25,6 +35,8 @@ export async function createPlan(formData: FormData) {
     location,
     start_time,
     budget,
+    currency: 'INR',
+    country_code: 'IN',
     description,
     status: 'open'
   })
@@ -34,7 +46,8 @@ export async function createPlan(formData: FormData) {
     return { error: error.message }
   }
 
-  revalidatePath('/app/dashboard')
+  revalidatePath('/app/explore')
+  revalidatePath('/app/earn/marketplace')
   return { success: true }
 }
 
@@ -56,8 +69,16 @@ export async function applyToPlan(planId: string, proposedRate: number, message:
     return { error: error.message }
   }
 
-  revalidatePath('/hosts/dashboard')
+  revalidatePath('/app/earn')
   return { success: true }
+}
+
+export async function getAvailability(): Promise<'free_now' | 'available_today' | 'busy' | 'offline'> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'offline'
+  const { data } = await supabase.from('profiles').select('availability_status').eq('id', user.id).maybeSingle()
+  return (data?.availability_status || 'offline') as 'free_now' | 'available_today' | 'busy' | 'offline'
 }
 
 export async function updateAvailability(status: 'free_now' | 'available_today' | 'busy' | 'offline') {
@@ -75,6 +96,6 @@ export async function updateAvailability(status: 'free_now' | 'available_today' 
     return { error: error.message }
   }
 
-  revalidatePath('/hosts/dashboard')
+  revalidatePath('/app/earn')
   return { success: true }
 }

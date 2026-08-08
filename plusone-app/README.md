@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PlusOne
 
-## Getting Started
+PlusOne is an India-first marketplace to find someone for any lawful plan and earn money by meeting new people. The frontend uses the existing PlusOne light/editorial visual system; the backend uses Next.js server actions and Supabase Auth/Postgres.
 
-First, run the development server:
+## Setup
 
 ```bash
+npm ci
+cp ../.env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local`. Never put a Supabase service-role key in the browser, repository, or `.env.local` used by the client.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Database
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run the migrations in order in Supabase SQL Editor:
 
-## Learn More
+1. `supabase/migrations/00001_initial_schema.sql`
+2. `supabase/migrations/00002_fix_trigger.sql`
+3. `supabase/migrations/00003_marketplace_foundation.sql`
+4. `supabase/migrations/00004_india_launch_constraints.sql`
+5. `supabase/migrations/00005_booking_integrity.sql`
 
-To learn more about Next.js, take a look at the following resources:
+The fourth migration configures the initial launch for India and INR. The schema retains country, timezone, and currency fields so international expansion can be enabled later without redesigning the marketplace.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+To enable the hidden admin dashboard, set the founder's `profiles.role` to `admin` from a trusted Supabase SQL session. Do not allow the user-facing signup form to set this role.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Current backend actions
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Marketplace actions live in `src/app/marketplace/actions.ts` and cover listings, bookings, booking responses, messages, reviews, and reports. The remaining UI screens are being moved from mock data to these actions incrementally while preserving the existing styling.

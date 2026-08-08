@@ -29,16 +29,23 @@ export default function UnifiedAppNav() {
   const pathname = usePathname()
   const [createOpen, setCreateOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [createError, setCreateError] = useState('')
 
   const handleCreateSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSubmitting(true)
+    setCreateError('')
     try {
       const formData = new FormData(e.currentTarget)
-      await createPlan(formData)
-      setCreateOpen(false)
-    } catch (err) {
-      console.error(err)
+      const result = await createPlan(formData)
+      if ('error' in result) {
+        setCreateError(result.error || 'Could not post your plan.')
+      } else {
+        setCreateOpen(false)
+        e.currentTarget.reset()
+      }
+    } catch {
+      setCreateError('Could not post your plan. Please try again.')
     } finally {
       setSubmitting(false)
     }
@@ -62,7 +69,11 @@ export default function UnifiedAppNav() {
               )
             }
             
-            const isActive = pathname.startsWith(item.href)
+            const isActive = item.href === '/app/chats'
+              ? pathname.startsWith('/app/chats') || pathname.startsWith('/app/messages')
+              : item.href === '/app/me'
+              ? pathname === '/app/me' || pathname.startsWith('/app/me/')
+              : (pathname === item.href || pathname.startsWith(item.href + '/'))
             const Icon = item.icon!
             return (
               <Link
@@ -93,7 +104,11 @@ export default function UnifiedAppNav() {
         <div className="flex flex-col gap-2 flex-1">
           {navItems.map((item) => {
             if (item.isCreate) return null
-            const isActive = pathname.startsWith(item.href)
+            const isActive = item.href === '/app/chats'
+              ? pathname.startsWith('/app/chats') || pathname.startsWith('/app/messages')
+              : item.href === '/app/me'
+              ? pathname === '/app/me' || pathname.startsWith('/app/me/')
+              : (pathname === item.href || pathname.startsWith(item.href + '/'))
             const Icon = item.icon!
             return (
               <Link
@@ -116,7 +131,7 @@ export default function UnifiedAppNav() {
           onClick={() => setCreateOpen(true)}
           className="mt-auto w-full flex items-center justify-center gap-2 py-4 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold shadow-lg hover:-translate-y-1 transition-transform"
         >
-          <Plus size={20} /> Create Plan
+          <Plus size={20} /> Create
         </button>
       </nav>
 
@@ -140,8 +155,9 @@ export default function UnifiedAppNav() {
             >
               <div className="flex items-center justify-between p-6 border-b border-[var(--border)] bg-[var(--card)]">
                 <div>
-                  <h2 className="text-xl font-semibold m-0">What do you want to do?</h2>
-                  <p className="text-xs text-[var(--muted-foreground)] m-0 mt-1">Nearby hosts will apply to join you.</p>
+                  <h2 className="text-xl font-semibold m-0">Find someone</h2>
+                  <p className="text-xs text-[var(--muted-foreground)] m-0 mt-1">Post a plan and let someone join you.</p>
+                  <Link href="/app/earn" onClick={() => setCreateOpen(false)} className="text-xs text-[var(--primary)] no-underline inline-block mt-2">Want to earn instead? → Earn money</Link>
                 </div>
                 <button onClick={() => setCreateOpen(false)} className="w-8 h-8 grid place-items-center rounded-full bg-[var(--muted)] text-[var(--foreground)] border-none cursor-pointer">
                   <X size={16} />
@@ -171,16 +187,18 @@ export default function UnifiedAppNav() {
                       <input type="time" name="time" required className="app-input w-full" />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Budget (₹)</label>
-                      <input type="number" name="budget" required placeholder="800" className="app-input w-full" />
+                      <label className="block text-xs font-medium text-[var(--foreground)] mb-1">What are you offering? (₹)</label>
+                      <input type="number" name="budget" required placeholder="e.g. 800" min="1" className="app-input w-full" />
                     </div>
                   </div>
 
                   <div>
                     <label className="block text-xs font-medium text-[var(--foreground)] mb-1">Details</label>
-                    <textarea name="description" placeholder="Looking for someone who enjoys sci-fi..." className="app-input w-full min-h-[80px] resize-y" />
+                    <textarea name="description" placeholder="Looking for someone who enjoys sci-fi and bad plot theories..." className="app-input w-full min-h-[80px] resize-y" />
+                    <p className="text-xs text-[var(--muted-foreground)] m-0">Lawful plans only. No sexual services, scams, illegal activity, or minors.</p>
                   </div>
 
+                  {createError && <p className="text-xs text-red-600 m-0" role="alert">{createError}</p>}
                   <button type="submit" disabled={submitting} className="app-btn app-btn-primary mt-2">
                     {submitting ? 'Posting...' : 'Post Plan'}
                   </button>

@@ -17,6 +17,7 @@ export async function middleware(req: NextRequest) {
   }
 
   let user = null
+  let isAdmin = false
   try {
     const supabase = createServerClient(
       supabaseUrl,
@@ -38,6 +39,14 @@ export async function middleware(req: NextRequest) {
 
     const { data } = await supabase.auth.getUser()
     user = data?.user ?? null
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .maybeSingle()
+      isAdmin = profile?.role === 'admin'
+    }
   } catch (error) {
     console.warn('Middleware Supabase auth check failed:', error)
   }
@@ -48,7 +57,7 @@ export async function middleware(req: NextRequest) {
 
   // Strict Admin Protection
   if (req.nextUrl.pathname.startsWith('/admin')) {
-    if (!user || user.email !== 'aryansharma24112003@gmail.com') {
+    if (!user || !isAdmin) {
       const redirectUrl = req.nextUrl.clone()
       redirectUrl.pathname = user ? '/app/explore' : '/auth/login'
       return NextResponse.redirect(redirectUrl)

@@ -441,6 +441,9 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 
 @media (max-width: 760px) {
+  .listing-detail-grid { grid-template-columns: 1fr !important; }
+  .listing-detail-grid .app-card { min-width: 0; }
+
   .section-wrap { width: min(100% - 34px, 560px); }
   .site-nav { padding: 18px 17px; }
   .desktop-nav, .nav-login, .nav-cta { display: none; }

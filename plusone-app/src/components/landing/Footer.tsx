@@ -22,17 +22,17 @@ import { motion } from "framer-motion";
 const footerLinks = {
   platform: [
     { label: "Find a PlusOne", href: "/#find" },
-    { label: "Become a Host", href: "/hosts" },
+    { label: "Earn money", href: "/app/earn" },
     { label: "How It Works", href: "/#how" },
     { label: "Safety Center", href: "/safety" },
     { label: "Community Guidelines", href: "/community-guidelines" },
     { label: "Top Earners", href: "/leaderboard" },
   ],
-  for_hosts: [
-    { label: "Host Dashboard", href: "/dashboard" },
+  for_earners: [
+    { label: "Earn money", href: "/app/earn" },
     { label: "Earnings & Payouts", href: "/wallet" },
     { label: "Pricing Guide", href: "/host-pricing" },
-    { label: "Host Resources", href: "/host-resources" },
+    { label: "Earning resources", href: "/host-resources" },
     { label: "Verification Guide", href: "/verification" },
   ],
   legal: [
@@ -156,7 +156,7 @@ export default function Footer() {
             <div>
               <h4 className="text-white font-semibold text-sm mb-4">For Hosts</h4>
               <ul className="space-y-2.5">
-                {footerLinks.for_hosts.map((link) => (
+                {footerLinks.for_earners.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}

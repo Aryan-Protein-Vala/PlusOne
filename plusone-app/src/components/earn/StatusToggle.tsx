@@ -1,23 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-import { updateAvailability } from '@/app/plans/actions'
+import { useEffect, useState } from 'react'
+import { getAvailability, updateAvailability } from '@/app/plans/actions'
 import { motion } from 'framer-motion'
 
 export function StatusToggle() {
   const [status, setStatus] = useState<'free_now' | 'available_today' | 'busy' | 'offline'>('offline')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    getAvailability().then(setStatus).catch(() => setError('Could not load your availability.'))
+  }, [])
 
   const handleStatusChange = async (newStatus: typeof status) => {
     setLoading(true)
+    setError('')
+    const previous = status
     setStatus(newStatus)
     try {
-      await updateAvailability(newStatus)
-    } catch (e) {
-      console.error(e)
-    } finally {
-      setLoading(false)
-    }
+      const result = await updateAvailability(newStatus)
+      if ('error' in result && result.error) { setStatus(previous); setError(result.error) }
+    } catch { setStatus(previous); setError('Could not save your availability.') } finally { setLoading(false) }
   }
 
   const options = [
@@ -30,6 +34,7 @@ export function StatusToggle() {
   return (
     <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="app-card" style={{ marginBottom: 24, padding: 20 }}>
       <h3 style={{ fontSize: 16, fontWeight: 520, letterSpacing: '-.02em', margin: '0 0 16px' }}>Your Availability</h3>
+      {error && <p style={{ margin: '0 0 12px', color: 'var(--destructive)', fontSize: 12 }}>{error}</p>}
       <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
         {options.map(opt => (
           <button

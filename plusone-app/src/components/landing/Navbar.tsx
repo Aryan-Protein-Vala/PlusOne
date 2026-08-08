@@ -26,13 +26,13 @@ import {
 
 const navLinks = [
   { label: "Find PlusOne", href: "/#find" },
-  { label: "Become a Host", href: "/hosts" },
+  { label: "Earn money", href: "/app/earn" },
   { label: "How It Works", href: "/#how" },
   { label: "Safety", href: "/safety" },
 ];
 
 const userMenuItems = [
-  { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+  { icon: LayoutDashboard, label: "Dashboard", href: "/app/earn" },
   { icon: MessageSquare, label: "Messages", href: "/messages" },
   { icon: Wallet, label: "Wallet", href: "/wallet" },
   { icon: Settings, label: "Settings", href: "/profile" },
